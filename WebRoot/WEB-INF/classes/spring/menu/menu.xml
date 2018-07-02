@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+    <util:list id="rootList" list-class="java.util.ArrayList" value-type="java.lang.String">
+		<value>0, 1,首页,/index.html,ADMIN|NONE,true,fa-dashboard</value>
+		
+		<!-- 设计案例 -->
+		<value>0, 10000000,设计案例,/admin/design/index.html,ADMIN|:sys:DesignManager,true,fa-angle-right</value>
+		
+		<!-- 团队管理 -->
+		<value>0, 20000000,团队管理,/admin/team/index.html,ADMIN|:sys:TeamManager,true,fa-angle-right</value>
+		
+		<!-- 关于我们 -->
+		<value>0, 300000000,关于我们,/admin/about/index.html,ADMIN|:sys:AboutUsManager,true, fa-angle-right</value>
+			
+		<!-- 用户管理 -->
+		<value>0, 40000000,用户管理,/admin/user/index.html,ADMIN|:sys:sysUserManager,true,fa-angle-right</value>
+			<value>40000000, 40001000,用户列表,/admin/user/index.html,ADMIN|:sys:QqsEmployee,true,fa-user</value>
+		
+		<!-- 系统管理 -->
+		<value>0, 50000000,系统管理,/admin/system/index.html,ADMIN|:sys:systemManager,true,fa-angle-right</value>
+			<value>50000000, 50001000, 系统角色, /admin/system/roles.html, ADMIN|SysRole:index,true,fa-user-secret</value>
+			<value>50000000, 50002000, 参数配置, /admin/system/setting.html, ADMIN|SysConfig:index,true,fa-puzzle-piece</value>
+	</util:list>
+	
+    <util:list id="fixRules" list-class="java.util.ArrayList" value-type="java.lang.String">
+    	<value>/static/css/* = anon</value>
+    	<value>/static/images/* = anon</value>
+    	<value>/static/js/* = anon</value>
+    	<value>/static/backend/** = anon</value>
+        <value>/admin/login.* = anon</value>
+        <value>/commons/500.* = anon</value>
+        <value>/commons/404.* = anon</value>
+        <value>/logout = logout</value>
+		<value>/admin/** =  authc</value>
+	</util:list>
+</beans>

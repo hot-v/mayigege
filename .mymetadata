@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="mayigege"
+  id="myeclipse.1498112975968"
+  context-root="/mayigege"
+  j2ee-spec="5.0"
+  archive="mayigege.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

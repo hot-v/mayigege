@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd   
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util-4.0.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+ 
+    <!-- 缓存管理器 使用Ehcache实现 -->
+    <bean id="memCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"/>
+    
+    <!-- 虚需要自己写的realm实现类 充当shiro和应用的安全数据的桥梁  -->
+    <bean id="myAuthorizeRealm" class="com.yijiwenhua.mayigege.secutity.AuthorizeRealm"></bean>
+    
+    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
+		<property name="interval" value="1800000"/>
+		<!-- <property name="sessionManager" ref="sessionManager"/>  -->
+	</bean>
+	
+	<!-- 会话ID生成器 -->
+    <bean id="sessionIdGenerator" class="com.yijiwenhua.mayigege.secutity.SidSessionIdGenerator"/>
+	
+	<!-- 会话DAO -->  
+    <bean id="memSessionDAO" class="org.apache.shiro.session.mgt.eis.MemorySessionDAO">  
+        <property name="sessionIdGenerator" ref="sessionIdGenerator"/>  
+    </bean>
+    
+    <!-- 会话Cookie模板 -->
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">  
+        <constructor-arg value="sid"/>  
+        <property name="httpOnly" value="true"/>  
+        <property name="maxAge" value="180000"/>  
+    </bean>
+    
+    <bean id="sessionManager" class="com.yijiwenhua.mayigege.secutity.SidWebSessionManager">
+	    <!-- <property name="globalSessionTimeout" value="3600000"/>
+        <property name="deleteInvalidSessions" value="true"/>  
+        <property name="sessionValidationSchedulerEnabled" value="true"/>    --> 
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
+        <property name="sessionDAO" ref="memSessionDAO"/>  
+        <property name="sessionIdCookieEnabled" value="true"/>  
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>  
+	</bean>
+    
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="myAuthorizeRealm" />
+		<property name="cacheManager" ref="memCacheManager" />
+		<property name="sessionManager" ref="sessionManager" />
+	</bean>
+	
+    <!-- 使shiro bena 注入更加方便  -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+	
+	<bean id="loadFilterChainDefinitions" class="com.likegene.framework.core.shiro.LoadFilterChainDefinitions"/>
+	
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login.html" />
+		<property name="successUrl" value="/index.html" />
+		<property name="unauthorizedUrl" value="/401.html" />
+		<property name="filters">
+			<util:map>
+				<entry key="autoLogin">
+					<bean
+						class="com.yijiwenhua.mayigege.secutity.AutoLoginAuthenticationFilter" />
+				</entry>
+				<entry key="authc">
+					<bean
+						class="com.yijiwenhua.mayigege.secutity.EnhanceAuthenticationFilter" />
+				</entry>
+				<entry key="roles">
+					<bean
+						class="com.yijiwenhua.mayigege.secutity.RolesAuthorizationFilter" />
+				</entry>
+			</util:map>
+		</property>
+		<property name="filterChainDefinitions" value="#{loadFilterChainDefinitions.loadAll()}"></property>
+		
+		<!-- shiro的强大的拦截器链，可以匹配全部的url，并根据配置进行拦截-->
+        <!-- <property name="filterChainDefinitions">
+            <value>
+                # 无需认证便可以访问的的文件放在前面
+                /js/* = anon
+                /css/* = anon
+                /font/* = anon
+                /img/* = anon
+                /inc/* = anon
+                /images/* = anon
+ 
+                /login.* = anon
+                /logout = logout
+            </value>
+        </property> -->
+	</bean>
+ 
+    <!-- 异常拦截 -->
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.apache.shiro.authz.UnauthorizedException">   
+                    /commons/404.html<!-- 未授权处理页 -->        
+                </prop>
+                <prop key="org.apache.shiro.authz.UnauthenticatedException">
+                    /commons/500.html<!-- 身份没有验证 -->
+                </prop>
+            </props>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,30 @@
+body{margin: 0;padding: 0;background-image: url(../images/bg.jpg);background-repeat: no-repeat;background-size: cover;    font-family: '微软雅黑';}
+h1{color:#fff;font-size: 40px;font-family: "Microsoft YaHei","\5fae\8f6f\96c5\9ed1";}
+p{color:#fff;font-size: 18px;height:24px;line-height:24px;    font-family: "Microsoft YaHei","\5fae\8f6f\96c5\9ed1";}
+.zi{ padding-top: 40px;}
+.zi span{display: block;color:#fff; font-size: 40px;}
+.zi p{font-size: 18px;color:#fff;}
+
+
+.login-box{width:320px;min-height:420px;position:absolute;background:#fff; padding: 20px 40px;right:0;top:160px;
+    /*-webkit-box-shadow: 0 2px 2px #000;*/
+    /*-moz-box-shadow: 0 2px 2px #000;*/
+    /*box-shadow:0 2px 2px #000;*/
+}
+h3{margin: 0; text-align: center;font-weight: normal;padding-top:10px;padding-bottom:10px;}
+
+.lo-box{margin-top: 20px; width:100%;}
+.lo-left{text-align: left;width:100%; padding-right: 10px; padding-top: 6px; display: block;}
+.lo-right{}
+.lo-right input{border:1px #ccc solid;width:100%;height:42px;line-height:42px; margin-top: 8px; text-indent:1em;font-size: 16px;}
+.but{text-align: center;}
+.but{background:#00a1ff;color:#fff; width:100%;margin: 20px auto;height:42px;line-height:42px;border:0; text-align: center;font-size: 18px; }
+.but a{display: block;color:#fff;text-decoration: none}
+.but a:hover{    -webkit-border-radius:6px;background:#58c1ff;
+    -moz-border-radius:6px;
+    border-radius:6px;}
+
+.con-box{width:1200px;margin: 0 auto;padding-top: 120px; position: relative;}
+.lg-logo{background-image: url(../images/logo-xian.png);background-repeat: no-repeat;background-position: bottom left; padding-bottom: 50px;}
+
+.bottom{border-top:1px #a29ca6 solid;height:60px;line-height:60px;position: fixed;bottom:0;width:100%; font-size: 16px;text-align: center;color:#fff;}

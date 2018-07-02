@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>插件</title>
+    <link rel="icon" type="image/x-icon" href="images/title_logo.png" />
+    <link href="css/newStyle.css" type="text/css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/plugin.css"  type="text/css">
+
+    <script src="js/jquery-1.11.3.min.js"></script>
+   
+
+</head>
+<body  style="padding:0;margin:0;width:100%;height:100%;background-color:#ffffff;overflow:hidden" >
+
+<div style="width:100%;height:100%;padding:0;margin:0;">
+
+    <!--系统检测 error   e3edf3-->
+    <div id="nonsupportSys" style="display:none" class="item">
+      <p class="prompt_txt">网页播放器仅支持Windows系统</p>
+    </div>
+
+    <!--浏览器检测 error   e3edf3-->
+    <div id="nonsupport" style="display:none" class="item">
+      <p class="prompt_txt">网页播放器目前仅支持window系统以及IE8以上的浏览器</p>
+    </div>
+
+    <!--插件检测 error-->
+    <div id="noPlugin" style="display:none"class="item">
+      <p class="prompt_txt">您的电脑还未安装网页播放器插件，请打开demo包中的LCOpenSDKPlugIn.exe进行安装，网页播放器目前支持window系统以及IE8以上的浏览器</p>
+    </div>
+
+    <!--已安装插件 表单-->
+    <div class="previewFormBg">
+    <!--已安装插件 表单填写-->
+      <div class="previewBox item"  id="hasPlugin"  style="display:none">
+           <div class="previewContent">
+                <img src="images/livepreview_text.png" style="margin-bottom:40px">
+                <div class="formItem">
+                    <div class="leftItem">Access Token<br/>或User Token</div>
+                    <div class="rightItem">
+                        <span class="signal">*</span>
+                        <div class="placeholder" onclick="$(this).next('input').focus()">请输入Access Token 或User Token</div>
+                        <input class="styleInput" id="item1" autocomplete="on" />
+                    </div>
+                </div>
+                <div style="clear:both" class="inputInfo">Access Token 或User Token的详细说明请见
+                  <a href="https://open.lechange.com/develop_guide?id=47" class="guidHref" target="_blank">开发指南</a>
+                </div>
+                <div class="inputErrBox"><div class="item1_inputErr inputErr">请输入Access Token 或User Token！</div></div>
+
+                <div class="formItem">
+                    <div class="leftItem" style="line-height:42px">设备S/N</div>
+                    <div class="rightItem">
+                        <span class="signal">*</span>
+                        <div class="placeholder" onclick="$(this).next('input').focus()" >请输入设备S/N</div>
+                        <input class="styleInput" id="item2" autocomplete="on" />
+                    </div>
+                </div>
+                <div class="inputErrBox"><div class="item2_inputErr inputErr">请输入设备S/N！</div></div>
+
+                <div class="formItem">
+                    <div class="leftItem" style="line-height:42px">设备通道号</div>
+                    <div class="rightItem">
+                        <span class="signal">*</span>
+                        <div class="placeholder" onclick="$(this).next('input').focus()">请输入设备通道号</div>
+                        <input class="styleInput" autocomplete="on" id="item3"/>
+                    </div>
+                </div>
+                <div class="inputErrBox">
+                  <div class="item3_inputErr inputErr">请输入设备通道号！</div>
+                  <div class="item31_inputErr inputErr">请输入正确的设备通道号！</div>
+                </div>
+                
+
+                <div class="previewBtn" onclick="submitToPreview()"></div>
+
+            </div>
+        </div>
+    <!--已安装插件 预览-->
+    <div class="previewBox01 item" id="previewPage" style="display:none">
+        <div class="previewContent01">
+           <div class="videoBox" id="videoBox">
+              <!-- <object  id="LCOpenSDKPlugIn" classid="clsid:14107C75-63C4-4E57-9C70-ED5675EAA254" width="800" height="600"></object> -->
+           </div>
+           <div class="handleBtns">
+               <div class="handleBtn">
+                   <div class="btn btn01" id="btn01"  onclick="CallOcx()"></div>
+               </div>
+               <hr class="hrLine"/>
+               <div class="handleBtn">
+                   <div class="btn btn03" id="btn03" onclick="changeClarity()"></div>
+               </div>
+               <hr class="hrLine"/>
+               <!-- 按ESC退出全屏 -->
+               <div class="handleBtn">
+                   <div class="btn btn04" id="btn04" onclick="enableFullScreen()"></div>
+               </div>
+           </div>
+        </div>
+        <div style="width:800px;height:50px;margin:0 auto" id="error"></div>
+    </div>
+
+    </div>
+
+</div>
+
+
+
+<SCRIPT LANGUAGE="JavaScript" FOR="LCOpenSDKPlugIn" EVENT="myOnPlayerResult(index,code,type)">  
+    onPlayResult(code,type);
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript" FOR="LCOpenSDKPlugIn" EVENT="myOnPlayBegan(index)">  
+    onPlayBegan(index);
+</SCRIPT>
+
+<script src="js/plugin_check.js"></script>
+<script language="JavaScript"   type="text/JavaScript">   
+
+$(document).ready(function(){
+
+    for(var i=0;i<$('.styleInput').length;i++)
+    {
+      if($('.styleInput').eq(i).val() != '' && 0 != $('.styleInput').eq(i).val().length)
+      {
+        $('.styleInput').eq(i).prev('div').hide();
+      }
+    }
+
+    //返回登陆界面
+
+    $(document).on('click','.goSignin',function(){
+        StopOcx();
+        stopOrPlay = 1;
+        $('#hasPlugin').show();
+        $('#previewPage').hide();
+        return false;
+    });
+
+
+    checkSystem();
+
+
+});
+
+
+</script>
+
+</body>
+</html>

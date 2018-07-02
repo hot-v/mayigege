@@ -1,0 +1,269 @@
+#nonsupport,#noPlugin,#nonsupportSys{
+	width: 600px;
+	height:500px;
+	margin: 0 auto;
+	border: 1px solid #ffffff;
+	margin-top:180px;
+	background: url(../images/webdemo_notsupport.png) no-repeat top;
+}
+.prompt_txt{
+	text-align: center;
+	margin-top:384px;
+	color: #505166;
+	font-size: 16px;
+}
+
+.previewFormBg{
+	width: 100%;
+	min-width: 1000px;
+	height: 100%;
+	min-height: 900px;
+	margin: 0 auto;
+	background: url("../images/reg_bg_picture.png") no-repeat top center;
+	background-color: #e3edf3;
+	border: 1px solid #e3edf3;
+}
+
+.previewBox{
+	width: 670px;
+	height:640px;
+	background: url("../images/BG.png") no-repeat center;
+	background-size: 100% 100%;
+	margin: 0 auto;
+	margin-top:120px;
+	text-align: center;
+	
+}
+.previewBox01{
+	width:875px;
+	height:710px;
+	background-size: 100% 100%;
+	margin: 0 auto;
+	text-align: center;
+	margin-top:65px;
+	/*border:1px solid red;*/
+	
+}
+.previewContent{
+	display: inline-block;
+	width: 530px;
+	max-height: 530px;
+	height:auto;
+	padding: 40px;
+	/*border: 1px solid gray;*/
+	margin: 0 auto;
+	margin-top:30px;
+}
+.previewContent01{
+	display: inline-block;
+	margin: 0 auto;
+	margin-top:10px;
+	width:800px;
+	height:650px;
+	/*border: 1px solid gray;*/
+	padding:0;
+}
+
+
+.videoBox{
+	display:inline-block;
+	width:800px;
+	height:600px;
+	background: url(../images/cover.jpg) no-repeat;
+}
+.formItem{
+	width:100%;
+	height:42px;
+	font-size: 14px;
+	color:#505166;
+}
+.leftItem{
+	width:130px;
+	height:auto;
+	text-align: right;
+	float: left;
+	/*border: 1px solid red;*/
+}
+.rightItem{
+	width:320px;
+	height:40px;
+	float: left;
+	text-align: left;
+	margin-left: 20px;
+	/*border: 1px solid red;*/
+}
+.signal{
+	height:40px;
+	width: 20px;
+	text-align: center;
+	line-height: 42px;
+	color: #ff0000;
+	display:inline-block;
+	float: left;
+}
+
+.styleInput{
+	height:40px;
+    width: 280px;
+    border-radius: 5px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+    border-radius: 5px!important; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+    -moz-border-radius: 5px; /* Firefox */
+    -webkit-border-radius: 5px; /* Safari 和 Chrome */
+    border: 1px solid #bbbbbf;
+    float: left;
+    color: #bbbbbf;
+    box-sizing:border-box;
+    padding:8px 6px 6px 6px;
+    color: #505166;
+}
+
+.styleInput:focus{
+	/*outline-style:solid;
+  	outline-width:1px;
+  	outline-color:#f38600;*/
+  	outline: none;
+  	border: none;
+  	border: 1px solid #f38600;
+}
+
+.placeholder{
+	position: absolute;
+	margin-left:30px;
+	margin-top: 10px;
+	color: #bbbbbf;
+}
+.inputErrBox{
+	width: 280px;
+	height:35px;
+	margin-left:170px;
+	border: 1px solid #ffffff;
+}
+.inputErr,.inputInfo{
+	width: 280px;
+	height:auto;
+	/*margin-left:190px;*/
+	text-indent: 20px;
+	text-align: left;
+	font-size: 14px;
+	margin-top:5px;
+}
+.inputInfo{
+	color: #a1a1a6;
+	margin-left:170px;
+	background: url("../images/common_icon_info_gray.png") no-repeat left 3px;
+}
+.inputErr{
+	color: #ff640f;
+	background: url("../images/common_icon_tip__small.png") no-repeat left 3px;
+	display: none;
+}
+
+.previewBtn{
+	width: 310px;
+	height:60px;
+	background: url("../images/btn_start.png") no-repeat center;
+	/*border: 1px solid red;*/
+	margin: 20px auto;
+	cursor: pointer;
+}
+.previewBtn:active{
+	width: 308px;
+	height:62px;
+}
+
+.handleBtns{
+	width: 800px;
+	height: 50px;
+	background-color:#2b2c37;
+	margin-top:-3px;
+}
+
+.handleBtn{
+	position: relative;
+	width: 255px;
+	height:50px;
+	display: inline-block;
+	/*border:1px solid red;*/
+}
+
+.hrLine{
+	height:30px;
+	border-left:1px solid #41444c;
+	border-right: none;
+	border-top: none;
+	border-bottom: none;
+	display: inline-block;
+	margin-bottom:10px;
+}
+
+.btn{
+	display: inline-block;
+/* 	width: 50px;
+	height:50px; */
+	cursor: pointer;
+}
+.btn01{
+	background: url(../images/video_icon_stop_nor.png) no-repeat center;
+}
+.btn01:hover{
+	background: url(../images/video_icon_stop_hover.png) no-repeat center;
+}
+
+.btn01_other{
+	background: url(../images/video_icon_play_nor.png) no-repeat center;
+}
+.btn01_other:hover{
+	background: url(../images/video_icon_play_hover.png) no-repeat center;
+}
+
+.btn02{
+	background: url(../images/speaking.gif) no-repeat center;
+}
+.btn02:hover{
+	background: url(../images/video_icon_speak_hover.png) no-repeat center;
+}
+
+
+.btn03{
+	background: url(../images/video_icon_hd_nor.png) no-repeat center;
+}
+.btn03:hover{
+	background: url(../images/video_icon_hd_hover.png) no-repeat center;
+}
+
+.btn03_sd{
+	background: url(../images/video_icon_fluent_nor.png) no-repeat center;
+}
+.btn03_sd:hover{
+	background: url(../images/video_icon_fluent_hover.png) no-repeat center;
+}
+
+
+.btn04{
+	background: url(../images/video_icon_fullscreen_nor.png) no-repeat center;
+}
+.btn04:hover{
+	background: url(../images/video_icon_fullscreen_hover.png) no-repeat center;
+}
+
+.warnImg
+{
+	/*color: #fb3e4f;*/
+	color: #f38600;
+	font-size: 16px;
+	height: 35px;
+	line-height: 35px;
+	width: 800px;
+	/*border: 1px solid red;*/
+	text-align: center;
+}
+
+.loading
+{
+	background: url(../images/loading-2.gif) no-repeat 315px;
+}
+
+.guidHref{
+	text-decoration: underline;
+	color: #505166;
+}
