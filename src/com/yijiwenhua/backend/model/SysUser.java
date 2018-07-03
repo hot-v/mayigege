@@ -44,6 +44,9 @@ public class SysUser implements Serializable {
 
 	/** 账户启用禁用（0：启用，1：禁用） */
 	private Integer isDisabled;
+	
+	/**用户角色名称*/
+	private String roleName;
 
 	public Long getId() {
 		return id;
@@ -107,6 +110,14 @@ public class SysUser implements Serializable {
 
 	public void setIsDisabled(Integer isDisabled) {
 		this.isDisabled = isDisabled;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 
 }

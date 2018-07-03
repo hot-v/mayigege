@@ -103,6 +103,7 @@
       <ul class="sidebar-menu">
       
       	<#list FunctionChildMap["0"] as f1>
+		<@shiro.hasAnyRoles name="${f1.rolenames}">
 		<li class="<#if parent?if_exists == f1>active</#if> treeview">
 			<a href="${base}${f1.url!}">
 				<i class="fa ${f1.icon!}"></i>
@@ -114,6 +115,7 @@
 			<#if FunctionChildNavigateMap[""+f1.id]?size != 0>
 			<ul class="treeview-menu">
 			<#list FunctionChildMap[""+f1.id] as f2>
+				<@shiro.hasAnyRoles name="${f2.rolenames}">
 				<#if f2.navigate>
 				<li <#if  parent?if_exists == f2>class="active"</#if>>
 					<a href="${base}${f2.url!}" <#if FunctionChildMap[""+f2.id]?size != 0>class="nofocus"</#if>>
@@ -126,18 +128,22 @@
 					<#if FunctionChildNavigateMap[""+f2.id]?size != 0>
 					<ul class="treeview-menu">
 					<#list FunctionChildMap[""+f2.id] as f3>
+						<@shiro.hasAnyRoles name="${f3.rolenames}">
 						<#if f3.navigate>
 							 <li <#if  parent?if_exists == f3>class="active"</#if>><a href="${base}${f3.url!}"><i class="fa ${f3.icon!}"></i> ${f3.name}</a></li>
 						</#if>
+						</@shiro.hasAnyRoles>
 					</#list>
 					</ul>
 					</#if>
 				</li>
 				</#if>
+				</@shiro.hasAnyRoles>
 			</#list>
 			</ul>
 			</#if>
 		</li>
+		</@shiro.hasAnyRoles>
 		</#list>
       </ul>
     </section>
@@ -212,17 +218,21 @@ $(document).ready(function () {
 	//初始化菜单选中 start
     var path_array = window.location.pathname.split('/');
     var scheme_less_url = '//' + window.location.host + window.location.pathname;
-    if(window.location.pathname.indexOf("qqs-admin") != -1){
+    if(window.location.pathname.indexOf("admin") != -1){
     	if (path_array[2] == 'index.html') {
-	        scheme_less_url = window.location.protocol + '//' + window.location.host + '/' + path_array[1];
+	        scheme_less_url = '/' + path_array[1] + '/' + path_array[2];
+	        //window.location.protocol + '//' + window.location.host + '/' + path_array[1] + '/' + path_array[2];
 	    } else {
-	        scheme_less_url = window.location.protocol + '//' + window.location.host + '/' + path_array[1] + '/' + path_array[2]+ '/' + path_array[3];
+	        scheme_less_url = '/' + path_array[1] + '/' + path_array[2] + '/' + path_array[3] + '/' + path_array[4];
+	        //window.location.protocol + '//' + window.location.host + '/' + path_array[1] + '/' + path_array[2]+ '/' + path_array[3] + '/' + path_array[4];
 	    }
     }else{
     	if (path_array[1] == 'index.html') {
-	        scheme_less_url = window.location.protocol + '//' + window.location.host + '/' + path_array[1];
+	        scheme_less_url = '/' + path_array[1] + '/' + path_array[2];
+	        //scheme_less_url = window.location.protocol + '//' + window.location.host + '/' + path_array[1];
 	    } else {
-	        scheme_less_url = window.location.protocol + '//' + window.location.host + '/' + path_array[1] + '/' + path_array[2];
+	        scheme_less_url = '/' + path_array[1] + '/' + path_array[2]+ '/' + path_array[3] + '/' + path_array[4];
+	        //scheme_less_url = window.location.protocol + '//' + window.location.host + '/' + path_array[1] + '/' + path_array[2]+ '/' + path_array[3] + '/' + path_array[4];
 	    }
     }
     
@@ -276,6 +286,29 @@ $(document).ready(function () {
         setOrgInfo();
     });
 });
+
+//tab 跳转页面
+function jumpPage(id,url){
+	$.ajax({
+		url:url,
+		type:"GET",
+		cache:false,
+		async:false,
+		dataType:"html",
+		error:function(){
+			top.Dialog.alert("页面加载出错！");
+		},
+		success:function(resp){
+			$("#"+id).html(resp);
+		}
+	});
+}
+
+
+//tab 跳转设置标题
+function setTitle(title){
+	$("ul.nav-tabs li.header small").text(title);
+}
 </script>
 <#nested>
 </html>

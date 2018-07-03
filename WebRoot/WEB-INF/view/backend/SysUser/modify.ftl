@@ -60,24 +60,12 @@
 			$.ajax({  
 		        type:'post',  
 		        traditional :true,  
-		        url:'${base}/SysUser/changePwd.json',
+		        url:'${base}/admin/user/modify.json',
 		        data:$("#myFormId").serialize(),  
 		        success:function(data){
 		        	switch(data.code){
 		        	case 401:
-		        		var n = noty({
-				            text        : data.message,
-				            type        : 'error',
-				            dismissQueue: true,
-				            layout      : 'topCenter',
-				            theme       : 'relax',
-				            timeout		: 1500,
-				            callback: {     // 设置回调函数
-						        afterClose: function() {
-						        	
-						        }
-						    }
-				        });
+	        			location.href = data.message;
 	        			break;
 	        		default:
 		        		if (data.success){
@@ -90,7 +78,7 @@
 					            timeout		: 1500,
 					            callback: {     // 设置回调函数
 							        afterClose: function() {
-							        	location.href='${base}/logout.html';
+							        	location.href='${base}/admin/logout.html';
 							        }
 							    }
 					        });

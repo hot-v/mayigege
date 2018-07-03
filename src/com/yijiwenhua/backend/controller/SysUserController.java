@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.likegene.framework.core.QueryFilter;
 import com.likegene.framework.core.Result;
-import com.likegene.framework.util.SettingUtil;
 import com.yijiwenhua.backend.model.SysUser;
 import com.yijiwenhua.backend.model.SysUserRole;
 import com.yijiwenhua.backend.service.SysRoleService;
@@ -47,6 +46,7 @@ public class SysUserController extends BaseController {
 	public String index(ModelMap model, HttpServletRequest request,
 			HttpServletResponse response) {
 		QueryFilter filter = new QueryFilter(request);
+		filter.setStatementKey(SysUserService.SELECT_USER_ROLE_LIST);
 		model.put("pager", sysUserService.findPager(filter).getReturnObj());
 		return "/backend/SysUser/index";
 	}
@@ -165,10 +165,10 @@ public class SysUserController extends BaseController {
 
 	/** 用户授权操作页面 */
 	@RequestMapping(value = "/authc.html")
-	public String authorization(Long userid, HttpServletRequest request,
+	public String authorization(Long userId, HttpServletRequest request,
 			HttpServletResponse response) {
 		QueryFilter filter = new QueryFilter();
-		filter.put("id", userid);
+		filter.put("id", userId);
 		SysUser entity = sysUserService.findOne(filter).getReturnObj();
 		request.setAttribute("entity", entity);
 

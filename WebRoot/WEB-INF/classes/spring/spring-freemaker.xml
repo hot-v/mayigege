@@ -24,8 +24,8 @@
 	<mvc:default-servlet-handler />
 	
     <!-- Freemarker配置 -->  
-	<bean id="freemarkerConfig"  
-	      class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">  
+	<!-- <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">   -->
+	<bean id="freemarkerConfig" class="com.yijiwenhua.mayigege.secutity.ShiroTagFreeMarkerConfigurer">
 	    <property name="templateLoaderPath" value="/" /> 
 	    <property name="freemarkerVariables">
 			<map>

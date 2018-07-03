@@ -1,6 +1,7 @@
 package com.yijiwenhua.mayigege.secutity;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.shiro.authc.AuthenticationException;
@@ -14,8 +15,24 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.likegene.framework.core.QueryFilter;
+import com.yijiwenhua.backend.model.SysRoleResource;
+import com.yijiwenhua.backend.model.SysUser;
+import com.yijiwenhua.backend.service.SysRoleResourceService;
+import com.yijiwenhua.backend.service.SysUserService;
+
+
+@Service("authorizeRealm")
 public class AuthorizeRealm extends AuthorizingRealm{
+	
+    @Autowired
+    private SysRoleResourceService sysRoleResourceService;
+    
+    @Autowired
+    private SysUserService sysUserService;
     
     public AuthorizeRealm()
     {
@@ -47,11 +64,33 @@ public class AuthorizeRealm extends AuthorizingRealm{
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        Set<String> roles = new HashSet<String>();
-        roles.add("ADMIN");
-        //roles.add("NONE");
-        info.setRoles(roles);
-		
+		Set<String> roles = new HashSet<String>();
+		try {
+			String username = (String) principals.fromRealm(getName())
+					.iterator().next();
+			QueryFilter filter = new QueryFilter();
+			filter.setStatementKey(SysUserService.SELECT_USER_INFO);
+			filter.put("username", username);
+			SysUser checkUser = sysUserService.findOne(filter).getReturnObj();
+			if (checkUser.getUsername().equals("admin") || checkUser.getIsSuperadmin().intValue() == 1) {
+				roles.add("ADMIN");
+			} else {
+				// 查询用户权限
+				filter = new QueryFilter();
+				filter.setStatementKey(SysRoleResourceService.SELECT_AUTHORIZATION);
+				filter.put("username", username);
+				List<SysRoleResource> resourceList = sysRoleResourceService
+						.findList(filter).getReturnObj();
+				for (SysRoleResource re : resourceList) {
+					roles.add(re.getResource());
+				}
+			}
+			roles.add("NONE");
+			info.setRoles(roles);
+		} catch (Exception e) {
+			e.printStackTrace();
+			roles.add("NONE");
+		}
 		return info;
 	}
 

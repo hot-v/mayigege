@@ -109,4 +109,59 @@
 		`id`=#{id}
 	</delete>
 
+	<!-- 关联查询用户角色 -->
+	<sql id="selectUserRole_sql">
+		<if test="id != null">
+			AND u.`id` = #{id}
+		</if>
+		<if test="fullname != null">
+			AND u.`fullname` = #{fullname}
+		</if>
+		<if test="username != null and username != ''">
+			AND u.`username` like CONCAT('%', #{username}, '%')
+		</if>
+		<if test="password != null and password != ''">
+			AND u.`password` = #{password}
+		</if>
+		<if test="createTime != null">
+			AND u.`create_time` = #{createTime}
+		</if>
+		<if test="remark != null">
+			AND u.`remark` = #{remark}
+		</if>
+		<if test="isSuperadmin != null">
+			AND u.`is_superadmin` = #{isSuperadmin}
+		</if>
+		<if test="isDisabled != null">
+			AND u.`is_disabled` = #{isDisabled}
+		</if>
+	</sql>
+
+	<select id="selectUserRoleList_count" parameterType="filter" resultType="int">
+		SELECT count(1)
+		FROM sys_user u LEFT JOIN sys_user_role ur ON u.id = ur.user_id LEFT JOIN sys_role r ON ur.role_id = r.role_id
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<include refid="selectUserRole_sql" />
+		</trim>
+	</select>
+
+	<select id="selectUserRoleList" parameterType="filter" resultType="SysUser">
+		SELECT
+		r.role_name,
+		<include refid="fields_sql" />
+		FROM sys_user u LEFT JOIN sys_user_role ur ON u.id = ur.user_id LEFT JOIN sys_role r ON ur.role_id = r.role_id
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<include refid="selectUserRole_sql" />
+		</trim>
+		<if test="order != null">
+			order by ${order} asc
+		</if>
+		<if test="start != null and limit != null">
+			limit #{start},#{limit}
+		</if>
+	</select>
+	
+	<select id="selectUserInfo" parameterType="filter" resultType="SysUser" >
+		SELECT * FROM sys_user WHERE username = #{username}
+	</select>
 </mapper>

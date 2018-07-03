@@ -20,7 +20,7 @@
     <bean id="memCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"/>
     
     <!-- 虚需要自己写的realm实现类 充当shiro和应用的安全数据的桥梁  -->
-    <bean id="myAuthorizeRealm" class="com.yijiwenhua.mayigege.secutity.AuthorizeRealm"></bean>
+    <bean id="myAuthorizeRealm" class="com.yijiwenhua.mayigege.secutity.AuthorizeRealm" />
     
     <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
 		<property name="interval" value="1800000"/>
@@ -68,7 +68,7 @@
 		<property name="securityManager" ref="securityManager" />
 		<property name="loginUrl" value="/login.html" />
 		<property name="successUrl" value="/index.html" />
-		<property name="unauthorizedUrl" value="/401.html" />
+		<property name="unauthorizedUrl" value="/commons/404.html" />
 		<property name="filters">
 			<util:map>
 				<entry key="autoLogin">
@@ -86,22 +86,6 @@
 			</util:map>
 		</property>
 		<property name="filterChainDefinitions" value="#{loadFilterChainDefinitions.loadAll()}"></property>
-		
-		<!-- shiro的强大的拦截器链，可以匹配全部的url，并根据配置进行拦截-->
-        <!-- <property name="filterChainDefinitions">
-            <value>
-                # 无需认证便可以访问的的文件放在前面
-                /js/* = anon
-                /css/* = anon
-                /font/* = anon
-                /img/* = anon
-                /inc/* = anon
-                /images/* = anon
- 
-                /login.* = anon
-                /logout = logout
-            </value>
-        </property> -->
 	</bean>
  
     <!-- 异常拦截 -->

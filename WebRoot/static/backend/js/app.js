@@ -316,6 +316,11 @@ function onView(config) {
 		}else{
 			$('.modal-dialog').width(600);
 		}
+		if(config.height !=undefined){
+			$('.modal-dialog').height(config.height);
+			$('.modal-body').height(config.height-100);
+			$('.modal-dialog div').eq(0).height(config.height);
+		}
 		$('#myModel .modal-body').html('<div class="col-sm-7 col-xs-offset-5"><img src="'+ctx+'static/backend/images/loading.gif"/></div>&nbsp;</div>');  
 		$.ajax({  
 	        type:'post',  

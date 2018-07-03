@@ -35,7 +35,7 @@ import com.yijiwenhua.mayigege.core.ResponseData;
  * @since 2017-04-06
  */
 @Controller
-@RequestMapping("/SysRole")
+@RequestMapping("/admin/role")
 public class SysRoleController extends BaseController {
 
 	@Autowired
@@ -56,13 +56,19 @@ public class SysRoleController extends BaseController {
 		QueryFilter filter = new QueryFilter(request);
 		filter.put("order", " role_id desc ");
 		model.put("pager", service.findPager(filter).getReturnObj());
-		return "/SysRole/index";
+		return "/backend/SysRole/index";
 	}
 
-	@RequestMapping(value = { "/add.html", "/edit.html", "/detail.html" })
+	@RequestMapping(value = "/add.html")
 	public String add(ModelMap model, HttpServletRequest request,
 			HttpServletResponse response) {
-		String roleId = request.getParameter("roleId");
+		return "/backend/SysRole/add";
+	}
+
+	@RequestMapping(value = "/edit.html")
+	public String edit(ModelMap model, HttpServletRequest request,
+			HttpServletResponse response) {
+		String roleId = request.getParameter("id");
 		if (StringUtils.isNotEmpty(roleId)) {// 编辑
 			QueryFilter filter = new QueryFilter();
 			filter.put("roleId", roleId);
@@ -96,7 +102,47 @@ public class SysRoleController extends BaseController {
 		model.put("searchType", request.getParameter("searchType"));
 		model.put("roleLists", service.findList(new QueryFilter())
 				.getReturnObj());
-		return "/SysRole/add";
+		return "/backend/SysRole/edit";
+	}
+
+	@RequestMapping(value = "/detail.html")
+	public String detail(ModelMap model, HttpServletRequest request,
+			HttpServletResponse response) {
+		String roleId = request.getParameter("id");
+		if (StringUtils.isNotEmpty(roleId)) {// 编辑
+			QueryFilter filter = new QueryFilter();
+			filter.put("roleId", roleId);
+			request.setAttribute("entity", service.findOne(filter)
+					.getReturnObj());
+			// 根据roleId获取角色资源信息
+			List<SysRoleResource> list = resourceService.findList(filter)
+					.getReturnObj();
+			String resourceStrs = "";
+			for (SysRoleResource sysRoleResource : list) {
+				if (sysRoleResource != null
+						&& sysRoleResource.getResource() != null) {
+					if (resourceStrs == null || "".equals(resourceStrs)) {
+						if (sysRoleResource.getResource().equals(":sys:index")) {
+							resourceStrs = "0";
+						} else {
+							resourceStrs = sysRoleResource.getResource();
+						}
+					} else {
+						if (sysRoleResource.getResource().equals(":sys:index")) {
+							resourceStrs = resourceStrs + ",0";
+						} else {
+							resourceStrs = resourceStrs + ","
+									+ sysRoleResource.getResource();
+						}
+					}
+				}
+			}
+			request.setAttribute("resourceStrs", resourceStrs);
+		}
+		model.put("searchType", request.getParameter("searchType"));
+		model.put("roleLists", service.findList(new QueryFilter())
+				.getReturnObj());
+		return "/backend/SysRole/detail";
 	}
 
 	@RequestMapping(value = "/save.json", method = RequestMethod.POST)
@@ -187,76 +233,37 @@ public class SysRoleController extends BaseController {
 		return ResponseData.SUCCESS_NO_DATA;
 	}
 
-	/*
-	 * @RequestMapping(value = "/detail.html") public String
-	 * detail(@ModelAttribute("roleId")Long roleId, HttpServletRequest request,
-	 * HttpServletResponse response) { QueryFilter filter = new QueryFilter();
-	 * filter.put("roleId", roleId); request.setAttribute("entity",
-	 * service.findOne(filter).getReturnObj()); //根据roleId获取角色资源信息
-	 * List<SysRoleResource> list =
-	 * resourceService.findList(filter).getReturnObj(); String resourceStrs="";
-	 * for (SysRoleResource sysRoleResource : list) { if (sysRoleResource !=
-	 * null && sysRoleResource.getResource() != null) { if (resourceStrs == null
-	 * || "".equals(resourceStrs)) { if
-	 * (sysRoleResource.getResource().equals(":sys:index")) { resourceStrs =
-	 * "0"; } else { resourceStrs = sysRoleResource.getResource(); } } else { if
-	 * (sysRoleResource.getResource().equals(":sys:index")) { resourceStrs =
-	 * resourceStrs + ",0"; } else { resourceStrs = resourceStrs + "," +
-	 * sysRoleResource.getResource(); } } } }
-	 * request.setAttribute("resourceStrs", resourceStrs); return
-	 * "/SysRole/detail"; }
-	 * 
-	 * @RequestMapping(value = "/edit.html") public String
-	 * edit(@ModelAttribute("roleId")Long roleId, HttpServletRequest request,
-	 * HttpServletResponse response) { QueryFilter filter = new QueryFilter();
-	 * filter.put("roleId", roleId); request.setAttribute("entity",
-	 * service.findOne(filter).getReturnObj()); // 根据roleId获取角色资源信息
-	 * List<SysRoleResource> list =
-	 * resourceService.findList(filter).getReturnObj(); String resourceStrs =
-	 * ""; for (SysRoleResource sysRoleResource : list) { if (sysRoleResource !=
-	 * null && sysRoleResource.getResource() != null) { if (resourceStrs == null
-	 * || "".equals(resourceStrs)) { if
-	 * (sysRoleResource.getResource().equals(":sys:index")) { resourceStrs =
-	 * "0"; } else { resourceStrs = sysRoleResource.getResource(); } } else { if
-	 * (sysRoleResource.getResource().equals(":sys:index")) { resourceStrs =
-	 * resourceStrs + ",0"; } else { resourceStrs = resourceStrs + "," +
-	 * sysRoleResource.getResource(); } } } }
-	 * request.setAttribute("resourceStrs", resourceStrs); return
-	 * "/SysRole/edit"; }
-	 * 
-	 * @RequestMapping(value = "/update.json", method = RequestMethod.POST)
-	 * 
-	 * @ResponseBody public ResponseData update(ModelMap model,
-	 * @ModelAttribute("entity") SysRole entity, HttpServletRequest request,
-	 * HttpServletResponse response) { Map<String, Object> errors =
-	 * FormValidatorManager.validate("saveSysRoleConfig", request); if
-	 * (errors.size() != 0) return new ResponseData(false, errors); try { //
-	 * 检查角色资源信息 String resources = request.getParameter("resources"); if
-	 * (resources == null || "".equals(resources)) { errors.put("请选择角色资源",
-	 * "resources"); return new ResponseData(false, errors); }
-	 * 
-	 * Result result = service.update(entity);
-	 * 
-	 * if (result.isSuccess()) {// 角色添加成功，处理资源信息 // 删除原有角色信息 QueryFilter
-	 * deleteFilter = new QueryFilter(); deleteFilter.put("roleId",
-	 * entity.getRoleId()); Result delResult =
-	 * resourceService.delete(deleteFilter);
-	 * 
-	 * if (delResult.isSuccess()) { // 重新添加角色资源信息 String[] resourcesStr =
-	 * resources.split(","); for (String str : resourcesStr) { SysRoleResource
-	 * roleResource = new SysRoleResource();
-	 * roleResource.setRoleId(entity.getRoleId()); if (str.equals("0")) { str =
-	 * ":sys:index"; } roleResource.setResource(str);
-	 * resourceService.save(roleResource); } } else { errors.put("操作失败  ",
-	 * "error"); return new ResponseData(false, errors); } } else {
-	 * errors.put("操作失败  ", "error"); return new ResponseData(false, errors); }
-	 * } catch (DuplicateKeyException e) { if
-	 * (e.getRootCause().getMessage().toUpperCase().contains("PRIMARY")) {
-	 * errors.put("id  重复", "id"); } if
-	 * (e.getRootCause().getMessage().toUpperCase().contains("ROLENAME")) {
-	 * errors.put("角色名称  重复", "id"); } return new ResponseData(false, errors); }
-	 * return ResponseData.SUCCESS_NO_DATA; }
-	 */
+	@RequestMapping(value = "/update.json", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseData update(ModelMap model,
+			@ModelAttribute("entity") SysRole entity,
+			HttpServletRequest request, HttpServletResponse response) {
+
+		Result result = service.update(entity);
+		String resources = request.getParameter("resources");
+
+		if (result.isSuccess()) {// 角色添加成功，处理资源信息 // 删除原有角色信息 QueryFilter
+			QueryFilter filter = new QueryFilter();
+			filter.put("roleId", entity.getRoleId());
+			Result delResult = resourceService.delete(filter);
+
+			if (delResult.isSuccess()) { // 重新添加角色资源信息
+				String[] resourcesStr = resources.split(",");
+				for (String str : resourcesStr) {
+					SysRoleResource roleResource = new SysRoleResource();
+					roleResource.setRoleId(entity.getRoleId());
+					if (str.equals("0")) {
+						str = ":sys:index";
+					}
+					roleResource.setResource(str);
+					resourceService.save(roleResource);
+				}
+			} else {
+				return ResponseData.FAILED_NO_DATA;
+			}
+		}
+		return ResponseData.SUCCESS_NO_DATA;
+	}
 
 	@RequestMapping(value = "/delete.json")
 	@ResponseBody

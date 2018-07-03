@@ -3,7 +3,7 @@
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
-	<display-name>smfds.web</display-name>
+	<display-name>mayigege.web</display-name>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath*:spring/*.xml</param-value>
@@ -41,19 +41,19 @@
 	<servlet>
 		<servlet-name>spring</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
+		<!-- <init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath*:spring-all.xml</param-value>
-		</init-param>
-		<!-- <init-param>
+		</init-param> -->
+		<init-param>
 			<param-name>contextClass</param-name>
 			<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
 		</init-param>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>org.spring.rest</param-value> won't find anything
-		</init-param> -->
-		<load-on-startup>2</load-on-startup>
+			<param-value>org.spring.rest</param-value><!--  won't find anything -->
+		</init-param>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>spring</servlet-name>

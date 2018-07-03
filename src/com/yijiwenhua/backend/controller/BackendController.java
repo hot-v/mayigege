@@ -58,6 +58,7 @@ public class BackendController extends BaseController {
 			return new ResponseData(false, "账号信息不能为空");
 
 		QueryFilter filter = new QueryFilter();
+		filter.setStatementKey(SysUserService.SELECT_USER_INFO);
 		filter.put("username", username);
 		SysUser sysUser = sysUserService.findOne(filter).getReturnObj();
 
