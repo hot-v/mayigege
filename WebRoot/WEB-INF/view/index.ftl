@@ -39,7 +39,24 @@
 	  <div class="templatemo_headerimage">
 	    <div class="flexslider">
 	      <ul class="slides">
-	        <li>
+	      	<#if (categroyList)?exists && ((categroyList)?size != 0)>
+				<#list coverList as cover>
+			        <li>
+			        	<img src="${base}${cover.path!}" alt="Slide 1">
+			        	<div class="slider-caption">
+						    <div class="templatemo_homewrapper">
+						      <h1 class="wow fadeInDown" data-wow-delay="2000">hello, this is web &AMP; mobile studio</h1>
+						      <h2 class="wow fadeInDown" data-wow-delay="2000">
+								<span class="rotate">fully responsive business one page, clean design and easy to customize</span>
+							</h2>
+							<p>it is built on html5, css3, bootstrap, and much more!</p>
+							<a href="#work" class="smoothScroll btn btn-default wow fadeInDown" data-wow-delay="2000">Our Work</a>	
+						    </div>
+					  	</div>
+			        </li>
+				</#list>
+			</#if>
+	        <#-- <li>
 	        	<img src="${base}/static/images/slider/1.jpg" alt="Slide 1">
 	        	<div class="slider-caption">
 				    <div class="templatemo_homewrapper">
@@ -77,7 +94,7 @@
 					<a href="#service" class="smoothScroll btn btn-default wow fadeInDown" data-wow-delay="2000">Our Services</a>	
 				    </div>
 			  	</div>
-	        </li>
+	        </li> -->
 	      </ul>
 	    </div>
 	  </div>				
@@ -272,60 +289,20 @@
 					<p>Mauris mattis vitae libero eget iaculis. Donec et augue quis quam porttitor consectetur ut nec sem. Integer sagittis viverra quam quis ultricies. Aenean risus nisl, consequat at nunc id, tincidunt tristique mauris.</p>
 				</div>
 				<div class="col-md-2"></div>
-				<div class="col-sm-6 col-md-4 wow fadeInLeft" data-wow-delay="2000">
-					<div class="media">
-						<i class="fa fa-cog pull-left media-object"></i>
-							<div class="media-body">
-								<h4 class="media-heading">WEB DEVELOPMENT</h4>
-								<p>In suscipit, purus id ultrices sodales, nunc mi porta nibh, bibendum maximus sem mi id metus. Suspendisse faucibus suscipit diam.</p>
+				
+				<#if (categroyList)?exists && ((categroyList)?size != 0)>
+					<#list categroyList as categroy>
+						<div class="col-sm-6 col-md-4 wow fadeInLeft" data-wow-delay="2000">
+							<div class="media">
+								<i class="fa fa-cog pull-left media-object"></i>
+									<div class="media-body">
+										<h4 class="media-heading">${categroy.serviceName!}</h4>
+										<p>${categroy.serviceDesc!}</p>
+									</div>
 							</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 wow fadeInDown" data-wow-delay="2000">
-					<div class="media">
-						<i class="fa fa-globe pull-left media-object"></i>
-							<div class="media-body">
-								<h4 class="media-heading">DOMAIN HOSTING</h4>
-								<p>In suscipit, purus id ultrices sodales, nunc mi porta nibh, bibendum maximus sem mi id metus. Suspendisse faucibus suscipit diam.</p>
-							</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 wow fadeInRight" data-wow-delay="2000">
-					<div class="media">
-						<i class="fa fa-desktop pull-left media-object"></i>
-							<div class="media-body">
-								<h4 class="media-heading">WEB DESIGN</h4>
-								<p>In suscipit, purus id ultrices sodales, nunc mi porta nibh, bibendum maximus sem mi id metus. Suspendisse faucibus suscipit diam.</p>
-							</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 wow fadeInLeft" data-wow-delay="2000">
-					<div class="media">
-						<i class="fa fa-heart pull-left media-object"></i>
-							<div class="media-body">
-								<h4 class="media-heading">SOCIAL MEDIA</h4>
-								<p>In suscipit, purus id ultrices sodales, nunc mi porta nibh, bibendum maximus sem mi id metus. Suspendisse faucibus suscipit diam.</p>
-							</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 wow fadeInDown" data-wow-delay="2000">
-					<div class="media">
-						<i class="fa fa-laptop pull-left media-object"></i>
-							<div class="media-body">
-								<h4 class="media-heading">RESPONSIVE THEMES</h4>
-								<p>In suscipit, purus id ultrices sodales, nunc mi porta nibh, bibendum maximus sem mi id metus. Suspendisse faucibus suscipit diam.</p>
-							</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 wow fadeInRight" data-wow-delay="2000">
-					<div class="media">
-						<i class="fa fa-envelope pull-left media-object"></i>
-							<div class="media-body">
-								<h4 class="media-heading">EMAIL HOSTING</h4>
-								<p>In suscipit, purus id ultrices sodales, nunc mi porta nibh, bibendum maximus sem mi id metus. Suspendisse faucibus suscipit diam.</p>
-							</div>
-					</div>
-				</div>
+						</div>
+					</#list>
+				</#if>
 			</div>
 		</div>
 	</section>
@@ -428,6 +405,7 @@
 		</div>
 	</section>
 	<!-- end pricing -->
+	
 	<!-- start contact -->
 	<section id="contact" class="text-center">
 		<div class="container">
@@ -440,7 +418,7 @@
 					<p>Mauris mattis vitae libero eget iaculis. Donec et augue quis quam porttitor consectetur ut nec sem. Integer sagittis viverra quam quis ultricies. Aenean risus nisl, consequat at nunc id, tincidunt tristique mauris.</p>
 				</div>
 				<div class="col-md-2"></div>
-				<form action="#" method="post">
+				<form id="contactForm" method="post">
 					<div class="col-md-4 wow fadeInLeft" data-wow-delay="2000">
 						<input type="text" placeholder="Name" class="form-control">
 					</div>
@@ -455,7 +433,7 @@
 					</div>
 					<div class="col-md-3"></div>
 					<div class="col-md-6 wow fadeInUp" data-wow-delay="2000">
-						<input type="submit" value="SHOOT MESSAGE" class="form-control">
+						<input type="button" value="SHOOT MESSAGE" class="form-control" style="background-color:#66AF33;" />
 					</div>
 					<div class="col-md-3"></div>
 				</form>
@@ -485,6 +463,52 @@
 
 <@main.footer>
 	<script>
-		
+		jQuery(function($) {
+			$(".btn-save").click(function(){
+				$.ajax({  
+			        type:'post',  
+			        traditional :true,  
+			        url:'${base}/admin/config/update.json',  
+			        data:$("#myFormId").serialize(),  
+			        success:function(data){
+			        	switch(data.code){
+			        	case 401:
+			        		location.href = data.message;
+		        			break;
+		        		default:
+			        		if (data.success){
+				        		var n = noty({
+						            text        : data.message,
+						            type        : 'success',
+						            dismissQueue: true,
+						            layout      : 'topCenter',
+						            theme       : 'relax',
+						            timeout		: 1500,
+						            callback: {     // 设置回调函数
+								        afterClose: function() {
+		                                	location.reload();
+								        }
+								    }
+						        });
+				        	}else{
+				        		for(var msg in data.message){
+					        		var n = noty({
+							            text        : msg,
+							            type        : 'error',
+							            dismissQueue: true,
+							            layout      : 'topCenter',
+							            theme       : 'relax',
+							            timeout		: 1500
+							        });
+					        	}
+				        	}
+			        	}
+			        },
+			        error:function(data){
+			        	alert('ajax错误');
+			        }
+			    });
+			});
+		});
 	</script>
 </@main.footer>

@@ -21,7 +21,7 @@ import com.yijiwenhua.mayigege.core.ResponseData;
 
 @Component
 @RequestMapping("/admin")
-public class BackendController extends BaseController {
+public class AdminController extends BaseController {
 
 	@Autowired
 	private SysUserService sysUserService;

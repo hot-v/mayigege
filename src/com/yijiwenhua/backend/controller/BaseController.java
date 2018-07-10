@@ -8,7 +8,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -84,6 +83,7 @@ abstract public class BaseController {
 	    return ((ServletWebRequest)RequestContextHolder.getRequestAttributes()).getResponse();
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	final public void addError(String msg)
     {
         Object errormsgs = getRequest().getAttribute("errorMsgs");

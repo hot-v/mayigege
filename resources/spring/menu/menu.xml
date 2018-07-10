@@ -11,26 +11,31 @@
     <util:list id="rootList" list-class="java.util.ArrayList" value-type="java.lang.String">
 		<value>0, 1,首页,/admin/index.html,ADMIN|NONE,true,fa-dashboard</value>
 		
+		<!-- 公司管理 -->
+		<value>0, 10000000,公司管理,/admin/company/index.html,ADMIN|:SysCompany:index,true,fa-angle-right</value>
+			<value>10000000, 10001000, 公司信息, /admin/company/index.html, ADMIN|SysCompany:index,true,fa-info-circle</value>
+			<value>10000000, 10002000, 服务项目, /admin/service/index.html, ADMIN|CompanyServices:index,true,fa-newspaper-o</value>
+		
 		<!-- 设计案例 -->
-		<value>0, 10000000,设计案例,/admin/design/index.html,ADMIN|:sys:DesignManager,true,fa-angle-right</value>
+		<value>0, 20000000,设计案例,/admin/design/index.html,ADMIN|:sys:DesignManager,true,fa-angle-right</value>
 		
 		<!-- 团队管理 -->
-		<value>0, 20000000,团队管理,/admin/team/index.html,ADMIN|:sys:TeamManager,true,fa-angle-right</value>
+		<value>0, 30000000,团队管理,/admin/team/index.html,ADMIN|:sys:TeamManager,true,fa-angle-right</value>
 		
 		<!-- 关于我们 -->
-		<value>0, 300000000,关于我们,/admin/about/index.html,ADMIN|:sys:AboutUsManager,true, fa-angle-right</value>
+		<value>0, 400000000,咨询管理,/admin/contact/index.html,ADMIN|:sys:ContactManager,true, fa-angle-right</value>
 			
 		<!-- 用户管理 -->
-		<value>0, 40000000,用户管理,/admin/user/index.html,ADMIN|:sys:sysUserManager,true,fa-angle-right</value>
-			<value>40000000, 40001000,用户列表,/admin/user/index.html,ADMIN|:sys:QqsEmployee,true,fa-user</value>
+		<value>0, 50000000,用户管理,/admin/user/index.html,ADMIN|:sys:sysUserManager,true,fa-angle-right</value>
+			<!-- <value>50000000, 50001000,用户列表,/admin/user/index.html,ADMIN|:sys:QqsEmployee,true,fa-user</value> -->
 		
 		<!-- 系统管理 -->
-		<value>0, 50000000,系统管理,/admin/config/index.html,ADMIN|:sys:configManager,true,fa-angle-right</value>
-			<value>50000000, 50001000, 参数配置, /admin/config/index.html, ADMIN|SysConfig:index,true,fa-puzzle-piece</value>
-			<value>50000000, 50002000, 系统角色, /admin/role/index.html, ADMIN|SysRole:index,true,fa-user-secret</value>
+		<value>0, 60000000,系统管理,/admin/config/index.html,ADMIN|:sys:configManager,true,fa-angle-right</value>
+			<value>60000000, 60001000, 系统角色, /admin/role/index.html, ADMIN|SysRole:index,true,fa-user-secret</value>
+			<value>60000000, 60002000, 参数配置, /admin/config/index.html, ADMIN|SysConfig:index,true,fa-puzzle-piece</value>
 			
 		<!-- 供应商管理 -->
-		<value>0, 60000000,供应商管理,/admin/supplier/index.html,ADMIN|:sys:SupplierManager,true,fa-angle-right</value>
+		<value>0, 70000000,供应商管理,/admin/supplier/index.html,ADMIN|:sys:SupplierManager,true,fa-angle-right</value>
 	</util:list>
 	
     <util:list id="fixRules" list-class="java.util.ArrayList" value-type="java.lang.String">

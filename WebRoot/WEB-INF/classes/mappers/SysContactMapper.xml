@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysContact" >
+	<!--
+	author lvliang
+	since  2018-07-10 	
+	id : id
+	username : 咨询人
+	mobile : 咨询人-联系方式
+	email : 咨询人-邮箱
+	title : 咨询标题
+	content : 咨询内容
+	id_processed : 是否处理(0:否、1:是)
+	create_time : 咨询时间
+	proc_result : 处理结果
+	proc_user_id : 处理人
+	proc_time : 处理时间
+	-->
+	<sql id="fields_sql">
+	`id` ,`username` ,`mobile` ,`email` ,`title` ,`content` ,`id_processed` ,`create_time` ,`proc_result` ,`proc_user_id` ,`proc_time` 
+	</sql>
+	
+	<sql id="where_sql">
+		<if test="id != null">
+			AND `id`  = #{id}
+		</if>
+		<if test="username != null and username != ''">
+			AND `username` like CONCAT('%', #{escape_username}, '%')
+		</if>
+		<if test="mobile != null and mobile != ''">
+			AND `mobile` like CONCAT('%', #{escape_mobile}, '%')
+		</if>
+		<if test="email != null and email != ''">
+			AND `email` like CONCAT('%', #{escape_email}, '%')
+		</if>
+		<if test="title != null and title != ''">
+			AND `title` like CONCAT('%', #{escape_title}, '%')
+		</if>
+		<if test="content != null and content != ''">
+			AND `content` like CONCAT('%', #{escape_content}, '%')
+		</if>
+		<if test="idProcessed != null and idProcessed != ''">
+			AND `id_processed` like CONCAT('%', #{escape_idProcessed}, '%')
+		</if>
+		<if test="createTime != null">
+			AND `create_time`  = #{createTime}
+		</if>
+		<if test="procResult != null and procResult != ''">
+			AND `proc_result` like CONCAT('%', #{escape_procResult}, '%')
+		</if>
+		<if test="procUserId != null">
+			AND `proc_user_id`  = #{procUserId}
+		</if>
+		<if test="procTime != null">
+			AND `proc_time`  = #{procTime}
+		</if>
+    </sql>
+    
+    <select id="selectList_count" parameterType="filter" resultType="int" >
+       	SELECT count(1)
+		FROM sys_contact 
+		<trim
+            prefix="WHERE"
+            prefixOverrides="AND |OR" >
+            <include refid="where_sql"/>
+        </trim>    </select>
+    
+    <select id="selectList" parameterType="filter" resultType="SysContact" >
+       SELECT
+		<include refid="fields_sql"/>
+	    FROM sys_contact 
+		<trim
+            prefix="WHERE"
+            prefixOverrides="AND |OR" >
+            <include refid="where_sql"/>
+        </trim>
+	    <if test="order != null">
+	    order by ${order}
+	    </if>
+	    <if test="start != null and limit != null">
+	    limit #{start},#{limit}
+	    </if>    </select>
+	
+	<insert id="save" parameterType="SysContact">
+		insert into sys_contact  (
+		`username` ,`mobile` ,`email` ,`title` ,`content` ,`id_processed` ,`create_time` ,`proc_result` ,`proc_user_id` ,`proc_time` 
+		)
+		values (
+		#{username},#{mobile},#{email},#{title},#{content},#{idProcessed},#{createTime},#{procResult},#{procUserId},#{procTime}
+		)
+		<selectKey keyProperty="id" resultType="Long">
+			SELECT
+			LAST_INSERT_ID() AS ID
+		</selectKey>
+	</insert>
+	
+	<update id="update" parameterType="SysContact">
+		UPDATE sys_contact
+		<set>
+			<if test="username != null">
+				`username` = #{username},
+			</if>
+			<if test="mobile != null">
+				`mobile` = #{mobile},
+			</if>
+			<if test="email != null">
+				`email` = #{email},
+			</if>
+			<if test="title != null">
+				`title` = #{title},
+			</if>
+			<if test="content != null">
+				`content` = #{content},
+			</if>
+			<if test="idProcessed != null">
+				`id_processed` = #{idProcessed},
+			</if>
+			<if test="createTime != null">
+				`create_time` = #{createTime},
+			</if>
+			<if test="procResult != null">
+				`proc_result` = #{procResult},
+			</if>
+			<if test="procUserId != null">
+				`proc_user_id` = #{procUserId},
+			</if>
+			<if test="procTime != null">
+				`proc_time` = #{procTime}
+			</if>
+		</set>
+		WHERE
+		`id` = #{id}
+	</update>
+
+	<delete id="delete" parameterType="Long">
+		delete from sys_contact
+		where
+		`id` = #{id}
+	</delete>
+</mapper>

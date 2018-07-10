@@ -16,6 +16,7 @@ import org.springframework.util.FileCopyUtils;
  * @author lvliang
  * 
  */
+@SuppressWarnings("deprecation")
 public class UTF8StringHttpMessageConverter extends StringHttpMessageConverter {
 
 	private static final MediaType utf8 = new MediaType("text", "plain",

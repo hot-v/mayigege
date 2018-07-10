@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.TimeZone;
 
+@SuppressWarnings("unused")
 public class BhGenerator {
 
 	/**

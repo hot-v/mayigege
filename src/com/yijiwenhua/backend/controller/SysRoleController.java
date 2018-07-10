@@ -193,9 +193,6 @@ public class SysRoleController extends BaseController {
 				if (entity != null) {
 					entity.setEnabled(1);// '是否生效(0:无效,1:有效)'
 					entity.setParentId(0L);
-				} else {
-					errors.put("操作失败", "error");
-					return new ResponseData(false, errors);
 				}
 
 				Result result = service.save(entity);

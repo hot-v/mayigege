@@ -70,7 +70,8 @@ public class AppContextHolder implements ServletContextAware
         return initialized;
     }
 
-    public static <T> T getCurrentUser()
+    @SuppressWarnings("unchecked")
+	public static <T> T getCurrentUser()
     {
         try
         {

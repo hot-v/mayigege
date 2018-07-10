@@ -808,14 +808,6 @@ public abstract class DateUtils {
         return allDayList;
     }
     
-	public static void  main(String[] args){
-	    List<Date> dates = getBetweenDates(1420041600,1451491200);
-        
-	    System.out.println("-----" + formatDatetime(firstDayOfMonth()));
-	    System.out.println(formatDatetime(getLastDayOfMonth(new Date())));
-	    System.out.println(formatDatetime(lastDayOfMonth()));
-	    
-	}
 	
 	/**
 	 * 计算两个时间相隔的月份数

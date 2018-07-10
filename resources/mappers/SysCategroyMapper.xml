@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysCategroy" >
+	<!--
+	author lvliang
+	since  2018-07-10 	
+	id : id
+	service_name : 服务名称
+	service_desc : 服务描述
+	create_time : 创建时间
+	-->
+	<sql id="fields_sql">
+	`id` ,`service_name` ,`service_desc` ,`create_time` 
+	</sql>
+	
+	<sql id="where_sql">
+		<if test="id != null">
+			AND `id`  = #{id}
+		</if>
+		<if test="serviceName != null and serviceName != ''">
+			AND `service_name` like CONCAT('%', #{escape_serviceName}, '%')
+		</if>
+		<if test="serviceDesc != null and serviceDesc != ''">
+			AND `service_desc` like CONCAT('%', #{escape_serviceDesc}, '%')
+		</if>
+		<if test="createTime != null">
+			AND `create_time`  = #{createTime}
+		</if>
+    </sql>
+    
+    <select id="selectList_count" parameterType="filter" resultType="int" >
+       	SELECT count(1)
+		FROM sys_categroy 
+		<trim
+            prefix="WHERE"
+            prefixOverrides="AND |OR" >
+            <include refid="where_sql"/>
+        </trim>    </select>
+    
+    <select id="selectList" parameterType="filter" resultType="SysCategroy" >
+       SELECT
+		<include refid="fields_sql"/>
+	    FROM sys_categroy 
+		<trim
+            prefix="WHERE"
+            prefixOverrides="AND |OR" >
+            <include refid="where_sql"/>
+        </trim>
+	    <if test="order != null">
+	    order by ${order}
+	    </if>
+	    <if test="start != null and limit != null">
+	    limit #{start},#{limit}
+	    </if>    </select>
+	
+	<insert id="save" parameterType="SysCategroy">
+		insert into sys_categroy  (
+		`service_name` ,`service_desc` ,`create_time` 
+		)
+		values (
+		#{serviceName},#{serviceDesc},#{createTime}
+		)
+		<selectKey keyProperty="id" resultType="Long">
+			SELECT
+			LAST_INSERT_ID() AS ID
+		</selectKey>
+	</insert>
+	
+	<update id="update" parameterType="SysCategroy">
+		UPDATE sys_categroy
+		<set>
+			<if test="serviceName != null">
+				`service_name` = #{serviceName},
+			</if>
+			<if test="serviceDesc != null">
+				`service_desc` = #{serviceDesc},
+			</if>
+			<if test="createTime != null">
+				`create_time` = #{createTime}
+			</if>
+		</set>
+		WHERE
+		`id` = #{id}
+	</update>
+
+	<delete id="delete" parameterType="Long">
+		delete from sys_categroy
+		where
+		`id` = #{id}
+	</delete>
+</mapper>

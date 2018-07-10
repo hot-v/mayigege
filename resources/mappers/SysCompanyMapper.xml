@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysCompany" >
+	<!--
+	author lvliang
+	since  2018-07-09 	
+	id : id
+	name : 公司名称
+	address : 公司地址
+	logo : 公司logo
+	mobile : 电话
+	email : 邮箱
+	desc : 公司描述
+	-->
+	<sql id="fields_sql">
+	`id` ,`name` ,`address` ,`logo` ,`mobile` ,`email` ,`desc` 
+	</sql>
+	
+	<sql id="where_sql">
+		<if test="id != null">
+			AND `id`  = #{id}
+		</if>
+		<if test="name != null and name != ''">
+			AND `name` like CONCAT('%', #{escape_name}, '%')
+		</if>
+		<if test="address != null and address != ''">
+			AND `address` like CONCAT('%', #{escape_address}, '%')
+		</if>
+		<if test="logo != null and logo != ''">
+			AND `logo` like CONCAT('%', #{escape_logo}, '%')
+		</if>
+		<if test="mobile != null and mobile != ''">
+			AND `mobile` like CONCAT('%', #{escape_mobile}, '%')
+		</if>
+		<if test="email != null and email != ''">
+			AND `email` like CONCAT('%', #{escape_email}, '%')
+		</if>
+		<if test="desc != null and desc != ''">
+			AND `desc` like CONCAT('%', #{escape_desc}, '%')
+		</if>
+    </sql>
+    
+    <select id="selectList_count" parameterType="filter" resultType="int" >
+       	SELECT count(1)
+		FROM sys_company 
+		<trim
+            prefix="WHERE"
+            prefixOverrides="AND |OR" >
+            <include refid="where_sql"/>
+        </trim>    </select>
+    
+    <select id="selectList" parameterType="filter" resultType="SysCompany" >
+       SELECT
+		<include refid="fields_sql"/>
+	    FROM sys_company 
+		<trim
+            prefix="WHERE"
+            prefixOverrides="AND |OR" >
+            <include refid="where_sql"/>
+        </trim>
+	    <if test="order != null">
+	    order by ${order}
+	    </if>
+	    <if test="start != null and limit != null">
+	    limit #{start},#{limit}
+	    </if>    </select>
+	
+	<insert id="save" parameterType="SysCompany">
+		insert into sys_company  (
+		`name` ,`address` ,`logo` ,`mobile` ,`email` ,`desc` 
+		)
+		values (
+		#{name},#{address},#{logo},#{mobile},#{email},#{desc}
+		)
+		<selectKey keyProperty="id" resultType="Integer">
+			SELECT
+			LAST_INSERT_ID() AS ID
+		</selectKey>
+	</insert>
+	
+	<update id="update" parameterType="SysCompany">
+		UPDATE sys_company
+		<set>
+			<if test="name != null">
+				`name` = #{name},
+			</if>
+			<if test="address != null">
+				`address` = #{address},
+			</if>
+			<if test="logo != null">
+				`logo` = #{logo},
+			</if>
+			<if test="mobile != null">
+				`mobile` = #{mobile},
+			</if>
+			<if test="email != null">
+				`email` = #{email},
+			</if>
+			<if test="desc != null">
+				`desc` = #{desc}
+			</if>
+		</set>
+		WHERE
+		`id` = #{id}
+	</update>
+
+	<delete id="delete" parameterType="Integer">
+		delete from sys_company
+		where
+		`id` = #{id}
+	</delete>
+</mapper>

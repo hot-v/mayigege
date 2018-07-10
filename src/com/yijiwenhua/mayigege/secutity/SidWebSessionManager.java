@@ -22,6 +22,7 @@ public class SidWebSessionManager extends DefaultWebSessionManager {
 	private static final Logger log = LoggerFactory
 			.getLogger(SidWebSessionManager.class);
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Serializable getSessionId(SessionKey key) {
 		Serializable id = key.getSessionId();
