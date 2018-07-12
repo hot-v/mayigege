@@ -43,8 +43,8 @@
                             <div class="wy-login-wrapper">
                                 <h2>账号登录</h2>
                                 <form class="login-form" role="form">
-                                    <input type="text" class="login-form-input" name="username" id="exampleInputEmail1" placeholder="请输入账号">
-                                    <input type="password" class="login-form-input" name="password" id="exampleInputPassword1" placeholder="请输入密码">
+                                    <input type="text" class="login-form-input" name="username" id="exampleInputEmail1" placeholder="请输入账号" value="admin"/>
+                                    <input type="password" class="login-form-input" name="password" id="exampleInputPassword1" placeholder="请输入密码" value="111111"/>
                                     <div class="login-form-password">
                                         <label id="errorInfo">&nbsp;</label>
                                     </div>

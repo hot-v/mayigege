@@ -1,7 +1,6 @@
 package com.yijiwenhua.backend.controller;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.likegene.framework.core.QueryFilter;
 import com.likegene.framework.core.Result;
+import com.likegene.framework.core.formvalidator.FormValidatorManager;
 import com.yijiwenhua.backend.model.SysCategroy;
 import com.yijiwenhua.backend.model.SysFile;
 import com.yijiwenhua.backend.model.SysUser;
@@ -61,7 +61,7 @@ public class SysCategroyController extends BaseController{
 	public ResponseData save(ModelMap model, @ModelAttribute("entity") SysCategroy entity, 
 						HttpServletRequest request, HttpServletResponse response) {
 		SysUser user = AppContextHolder.getCurrentUser();
-		Map<String,Object> errors = new HashMap<String,Object>();
+		Map<String,Object> errors = FormValidatorManager.validate("saveSysCategroyConfig", request);
         if (errors.size() != 0)
         {
             return new ResponseData(false, errors);
@@ -145,7 +145,7 @@ public class SysCategroyController extends BaseController{
 	public ResponseData update(ModelMap model, @ModelAttribute("entity") SysCategroy entity, 
 						HttpServletRequest request, HttpServletResponse response) {
 		SysUser user = AppContextHolder.getCurrentUser();
-		Map<String,Object> errors = new HashMap<String,Object>();
+		Map<String,Object> errors = FormValidatorManager.validate("saveSysCategroyConfig", request);
         if (errors.size() != 0)
         {
             return new ResponseData(false, errors);

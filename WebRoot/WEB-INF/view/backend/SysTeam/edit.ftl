@@ -1,6 +1,5 @@
 <#assign allowType= 'jpg,png,jpeg,bmp'>
 <link rel="stylesheet" type="text/css" href="${base}/static/backend/plugins/uploadify/uploadify.css"/>
-<script type="text/javascript" src="${base}/static/backend/plugins/uploadify/jquery.uploadify.min.js"></script>	
 
 <section class="content">
 	<ol class="breadcrumb">
@@ -44,6 +43,7 @@
 								</div>
 								<input type="hidden" id="face" name="face" value="${entity.face!}" />
 							</div>
+							<div class="col-md-3"><font id="require-face" style="color:red;">*</font><span id="errormsg-face" class="error"></span></div>
 						</div>
 						
 						<div class="form-group">
@@ -91,53 +91,61 @@
 	</div>
 </section>
 
+<script type="text/javascript" src="${base}/static/backend/plugins/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript" src="${base}/static/backend/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" src="${base}/static/backend/kindeditor/lang/zh-CN.js"></script>
+<script type="text/javascript" src="${base}/static/validatejs/SysMember.js"></script>	
 <script type="text/javascript">
 jQuery(function($) {
 	$(".select2").select2();
+	$("#myFormId").validate(saveSysMemberConfig);
+	
 	$(".btn-save").click(function(){
-		$.ajax({  
-	        type:'post',  
-	        traditional :true,  
-	        url:'${base}/admin/team/update.json',  
-	        data:$("#myFormId").serialize(),  
-	        success:function(data){
-	        	switch(data.code){
-	        	case 401:
-	        		location.href = data.message;
-        			break;
-        		default:
-	        		if (data.success){
-		        		var n = noty({
-				            text        : data.message,
-				            type        : 'success',
-				            dismissQueue: true,
-				            layout      : 'topCenter',
-				            theme       : 'relax',
-				            timeout		: 1500,
-				            callback: {     // 设置回调函数
-						        afterClose: function() {
-                                	location.reload();
-						        }
-						    }
-				        });
-		        	}else{
-		        		for(var msg in data.message){
+		if($("#myFormId").validateForm(saveSysMemberConfig)) {
+			$.ajax({  
+		        type:'post',  
+		        traditional :true,  
+		        url:'${base}/admin/team/update.json',  
+		        data:$("#myFormId").serialize(),  
+		        success:function(data){
+		        	switch(data.code){
+		        	case 401:
+		        		location.href = data.message;
+	        			break;
+	        		default:
+		        		if (data.success){
 			        		var n = noty({
-					            text        : msg,
-					            type        : 'error',
+					            text        : data.message,
+					            type        : 'success',
 					            dismissQueue: true,
 					            layout      : 'topCenter',
 					            theme       : 'relax',
-					            timeout		: 1500
+					            timeout		: 1500,
+					            callback: {     // 设置回调函数
+							        afterClose: function() {
+	                                	location.reload();
+							        }
+							    }
 					        });
+			        	}else{
+			        		for(var msg in data.message){
+				        		var n = noty({
+						            text        : msg,
+						            type        : 'error',
+						            dismissQueue: true,
+						            layout      : 'topCenter',
+						            theme       : 'relax',
+						            timeout		: 1500
+						        });
+				        	}
 			        	}
 		        	}
-	        	}
-	        },
-	        error:function(data){
-	        	alert('ajax错误');
-	        }
-	    });
+		        },
+		        error:function(data){
+		        	alert('ajax错误');
+		        }
+		    });
+	    }
 	});
 	
 	

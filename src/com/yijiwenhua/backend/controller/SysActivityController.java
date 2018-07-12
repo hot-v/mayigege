@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.likegene.framework.core.QueryFilter;
 import com.likegene.framework.core.Result;
+import com.likegene.framework.core.formvalidator.FormValidatorManager;
 import com.yijiwenhua.backend.model.SysActivity;
 import com.yijiwenhua.backend.model.SysCategroy;
 import com.yijiwenhua.backend.model.SysFile;
@@ -82,7 +83,7 @@ public class SysActivityController extends BaseController{
 	public ResponseData save(ModelMap model, @ModelAttribute("entity") SysActivity entity, 
 						HttpServletRequest request, HttpServletResponse response) {
 		SysUser user = AppContextHolder.getCurrentUser();
-		Map<String,Object> errors = new HashMap<String,Object>();
+		Map<String,Object> errors = FormValidatorManager.validate("saveSysActivityConfig", request);
         if (errors.size() != 0)
         {
             return new ResponseData(false, errors);
@@ -181,7 +182,7 @@ public class SysActivityController extends BaseController{
 	public ResponseData update(ModelMap model, @ModelAttribute("entity") SysActivity entity, 
 						HttpServletRequest request, HttpServletResponse response) {
 		SysUser user = AppContextHolder.getCurrentUser();
-		Map<String,Object> errors = new HashMap<String,Object>();
+		Map<String,Object> errors = FormValidatorManager.validate("saveSysActivityConfig", request);
         if (errors.size() != 0)
         {
             return new ResponseData(false, errors);

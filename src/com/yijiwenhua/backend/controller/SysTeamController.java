@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.likegene.framework.core.QueryFilter;
 import com.likegene.framework.core.Result;
+import com.likegene.framework.core.formvalidator.FormValidatorManager;
 import com.yijiwenhua.backend.model.SysConfig;
 import com.yijiwenhua.backend.model.SysMember;
 import com.yijiwenhua.backend.service.SysConfigService;
@@ -73,7 +74,7 @@ public class SysTeamController extends BaseController {
 			@ModelAttribute("entity") SysMember entity,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-			Map<String, Object> errors = new HashMap<String, Object>();
+			Map<String,Object> errors = FormValidatorManager.validate("saveSysMemberConfig", request);
 			if (errors.size() != 0) {
 				return new ResponseData(false, errors.keySet().toString());
 			}
@@ -132,6 +133,11 @@ public class SysTeamController extends BaseController {
 			@ModelAttribute("entity") SysMember entity,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
+			Map<String,Object> errors = FormValidatorManager.validate("saveSysMemberConfig", request);
+			if (errors.size() != 0) {
+				return new ResponseData(false, errors.keySet().toString());
+			}
+			
 			Result result = service.update(entity);
 			if (!result.isSuccess()) {
 				return new ResponseData(false, result.getErrormsg());

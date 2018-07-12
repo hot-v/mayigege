@@ -1,6 +1,5 @@
 package com.yijiwenhua.backend.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.likegene.framework.core.QueryFilter;
 import com.likegene.framework.core.Result;
+import com.likegene.framework.core.formvalidator.FormValidatorManager;
 import com.yijiwenhua.backend.model.SysConfig;
 import com.yijiwenhua.backend.service.SysConfigService;
 import com.yijiwenhua.mayigege.core.ResponseData;
@@ -49,7 +49,7 @@ public class SysConfigController extends BaseController{
 	@ResponseBody
 	public ResponseData save(ModelMap model, @ModelAttribute("entity") SysConfig entity, 
 						HttpServletRequest request, HttpServletResponse response) {
-		Map<String,Object> errors = new HashMap<String,Object>();
+		Map<String,Object> errors = FormValidatorManager.validate("saveSysConfigConfig", request);
         if (errors.size() != 0)
         {
             return new ResponseData(false, errors);
@@ -89,7 +89,7 @@ public class SysConfigController extends BaseController{
     @ResponseBody
 	public ResponseData update(ModelMap model, @ModelAttribute("entity") SysConfig entity, 
 						HttpServletRequest request, HttpServletResponse response) {
-		Map<String,Object> errors = new HashMap<String,Object>();
+		Map<String,Object> errors = FormValidatorManager.validate("saveSysConfigConfig", request);
         if (errors.size() != 0)
         {
             return new ResponseData(false, errors);

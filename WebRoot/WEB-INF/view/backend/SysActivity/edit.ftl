@@ -127,6 +127,7 @@
 								</div>
 								<input type="hidden" id="covers" name="covers" value="${paths!}" />
 							</div>
+							<div class="col-md-3"><font id="require-covers" style="color:red;">*</font><span id="errormsg-covers" class="error"></span></div>
 						</div>
 						
 						<div class="form-group">
@@ -152,6 +153,9 @@
 </section>
 
 <script type="text/javascript" src="${base}/static/backend/plugins/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript" src="${base}/static/backend/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" src="${base}/static/backend/kindeditor/lang/zh-CN.js"></script>
+<script type="text/javascript" src="${base}/static/validatejs/SysActivity.js"></script>	
 <script type="text/javascript">
 
 function deleteImg(obj){
@@ -207,6 +211,25 @@ function deleteImg(obj){
 
 jQuery(function($) {
 	$(".select2").select2();
+	$("#myFormId").validate(saveSysActivityConfig);
+	
+	var editor = KindEditor.create('textarea[name="activityDesc"]', {
+		width : '100%',
+		height : '400px',
+    	urlType : 'absolute',
+		allowFileManager : true,
+		items: ['source','undo','redo','preview','print','cut','copy','paste','plainpaste','wordpaste','justifyleft','justifycenter','justifyright',
+		'justifyfull','insertorderedlist','insertunorderedlist','indent','outdent','subscript','superscript','clearhtml','quickformat','selectall','fullscreen','formatblock',
+		'fontname','fontsize','forecolor','hilitecolor','bold','italic','underline','strikethrough','lineheight','removeformat','image','table','hr','emoticons',
+		'pagebreak','anchor','link','unlink'],
+		uploadJson:'${base}/uploadFile/uploadImg.json',
+		afterCreate : function() { 
+         this.sync(); 
+        },
+		afterBlur:function(){ 
+            this.sync(); 
+        } 
+	});	
 	
 	$('.dateCalendar').datetimepicker({
 		language: 'zh-CN',//显示中文
@@ -218,49 +241,51 @@ jQuery(function($) {
 	});
 	
 	$(".btn-save").click(function(){
-		$.ajax({  
-	        type:'post',  
-	        traditional :true,  
-	        url:'${base}/admin/activity/update.json',  
-	        data:$("#myFormId").serialize(),  
-	        success:function(data){
-	        	switch(data.code){
-	        	case 401:
-	        		location.href = data.message;
-        			break;
-        		default:
-	        		if (data.success){
-		        		var n = noty({
-				            text        : data.message,
-				            type        : 'success',
-				            dismissQueue: true,
-				            layout      : 'topCenter',
-				            theme       : 'relax',
-				            timeout		: 1500,
-				            callback: {     // 设置回调函数
-						        afterClose: function() {
-                                	location.reload();
-						        }
-						    }
-				        });
-		        	}else{
-		        		for(var msg in data.message){
+		if($("#myFormId").validateForm(saveSysActivityConfig)) {
+			$.ajax({  
+		        type:'post',  
+		        traditional :true,  
+		        url:'${base}/admin/activity/update.json',  
+		        data:$("#myFormId").serialize(),  
+		        success:function(data){
+		        	switch(data.code){
+		        	case 401:
+		        		location.href = data.message;
+	        			break;
+	        		default:
+		        		if (data.success){
 			        		var n = noty({
-					            text        : msg,
-					            type        : 'error',
+					            text        : data.message,
+					            type        : 'success',
 					            dismissQueue: true,
 					            layout      : 'topCenter',
 					            theme       : 'relax',
-					            timeout		: 1500
+					            timeout		: 1500,
+					            callback: {     // 设置回调函数
+							        afterClose: function() {
+	                                	location.reload();
+							        }
+							    }
 					        });
+			        	}else{
+			        		for(var msg in data.message){
+				        		var n = noty({
+						            text        : msg,
+						            type        : 'error',
+						            dismissQueue: true,
+						            layout      : 'topCenter',
+						            theme       : 'relax',
+						            timeout		: 1500
+						        });
+				        	}
 			        	}
 		        	}
-	        	}
-	        },
-	        error:function(data){
-	        	alert('ajax错误');
-	        }
-	    });
+		        },
+		        error:function(data){
+		        	alert('ajax错误');
+		        }
+		    });
+	    }
 	});
 	
 	$("#coversBtn").uploadify({

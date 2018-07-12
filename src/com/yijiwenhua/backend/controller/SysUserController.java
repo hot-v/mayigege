@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.likegene.framework.core.QueryFilter;
 import com.likegene.framework.core.Result;
+import com.likegene.framework.core.formvalidator.FormValidatorManager;
 import com.yijiwenhua.backend.model.SysUser;
 import com.yijiwenhua.backend.model.SysUserRole;
 import com.yijiwenhua.backend.service.SysRoleService;
@@ -62,7 +63,7 @@ public class SysUserController extends BaseController {
 			@ModelAttribute("entity") SysUser entity,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-			Map<String, Object> errors = new HashMap<String, Object>();
+			Map<String,Object> errors = FormValidatorManager.validate("saveSysUserConfig", request);
 			if (errors.size() != 0) {
 				return new ResponseData(false, errors.keySet().toString());
 			}
@@ -113,6 +114,14 @@ public class SysUserController extends BaseController {
 			@ModelAttribute("entity") SysUser entity,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
+			Map<String,Object> errors = FormValidatorManager.validate("saveSysUserConfig", request);
+			if (errors.size() != 0) {
+				return new ResponseData(false, errors.keySet().toString());
+			}
+			
+			// 用户密码MD5加密
+			entity.setPassword(new Md5Hash(entity.getPassword())
+					.toHex());
 			Result result = sysUserService.update(entity);
 			if (!result.isSuccess()) {
 				return new ResponseData(false, result.getErrormsg());

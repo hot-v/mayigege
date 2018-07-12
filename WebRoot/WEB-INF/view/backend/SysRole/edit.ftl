@@ -20,25 +20,29 @@
                                 </div>
                                 <div class="col-md-3"><font id="require-roleName" ></font><span id="errormsg-roleName" class="error"></span></div>
                             </div>
-                            <div class="form-group">
-                                <label for="val" class="col-md-3 control-label no-padding-right">权限</label>
-                                <div class="col-md-9">
-                                    <p style="color:red;margin-right:8px;float: left">*</p>
-                                    <font id="resourceError" color="red"></font>
-                                </div>
-                            </div>
-                            <div class="form-group" style="margin-top: -15px;">
-                                <label for="val" class="col-md-3 control-label no-padding-right"></label>
-                                <div class="col-md-9" style="height: 300px;overflow-x: hidden; overflow-y: auto;">
-                                    <ul id="treeDemo" class="ztree ztree_accordition" style="margin-top: -6px;"></ul>
-                                </div>
-                            </div>
+                    
+		                    <div class="form-group">
+		                        <label for="val" class="col-md-3 control-label no-padding-right">权限</label>
+		                          <div class="col-md-9" style="height: 300px;overflow-x: hidden; overflow-y: auto;">
+		                            <ul id="treeDemo" class="ztree ztree_accordition" style="margin-top: -6px;"></ul>
+		                        </div>
+		                    </div>
+		                    
+		                    <div class="form-group" style="margin-top: -15px;">
+		                        <label for="val" class="col-sm-3 control-label no-padding-right"></label>
+			                    <div class="col-md-6">
+			                        <p style="color:red;margin-right:8px;float: left">*</p>
+			                        <font id="resourceError" color="red" ></font>
+			                    </div>
+		                    </div>
+                            
                             <div class="form-group">
                                 <label for="descn" class="col-md-3 control-label no-padding-right">角色描述</label>
                                 <div class="col-md-5">
                                     <textarea type="text" id="descn" name="descn" class="form-control col-xs-10 col-md-5" rows="3" style="width:300px">${entity.descn!}</textarea>
                                 </div>
                             </div>
+                            
 		                    <div class="form-group">
 		                        <label class="col-sm-3 control-label no-padding-right"></label>
 		                        <div class="col-md-6">
@@ -58,60 +62,65 @@
     </div>
 </section>
     
-    
+<script type="text/javascript" src="${base}/static/validatejs/SysRole.js"></script>	
 <script>
 	$(document).ready(function(){
+		$("#myFormId").validate(saveSysRoleConfig);
+		
 	    $(".btn-save").click(function(){
 	        //获取资源树信息
 	        var selectedNode = getResource();
 	        $("input[name='resources']").val(selectedNode);
 	
+	        var isSubmit = true;
 	        if($("input[name='resources']").val()==""){
 	            $("#resourceError").html("请选择角色权限");
-	            return false;
+	            isSubmit = false;
 	        }
-	        console.log(selectedNode);
-	        $.ajax({
-	            type:'post',
-	            traditional :true,
-	            url:'${base}/admin/role/update.json',
-	            data:$("#myFormId").serialize(),
-	            success:function(data){
-	                if(data.code == '401'){
-	                    location.href = data.message;
-	                }else{
-	                    if (data.success){
-	                        var n = noty({
-	                            text        : data.message,
-	                            type        : 'success',
-	                            dismissQueue: true,
-	                            layout      : 'topCenter',
-	                            theme       : 'relax',
-	                            timeout   : 1500,
-	                            callback: {     // 设置回调函数
-	                                afterClose: function() {
-                                    	location.reload();
-	                                }
-	                            }
-	                        });
-	                    }else{
-	                        for(var msg in data.message){
-	                            var n = noty({
-	                                text        : msg,
-	                                type        : 'error',
-	                                dismissQueue: true,
-	                                layout      : 'topCenter',
-	                                theme       : 'relax',
-	                                timeout   : 1500
-	                            });
-	                        }
-	                    }
-	                }
-	            },
-	            error:function(data){
-	                alert(data.message);
-	            }
-	        });
+
+			if($("#myFormId").validateForm(saveSysRoleConfig) && isSubmit) {
+		        $.ajax({
+		            type:'post',
+		            traditional :true,
+		            url:'${base}/admin/role/update.json',
+		            data:$("#myFormId").serialize(),
+		            success:function(data){
+		                if(data.code == '401'){
+		                    location.href = data.message;
+		                }else{
+		                    if (data.success){
+		                        var n = noty({
+		                            text        : data.message,
+		                            type        : 'success',
+		                            dismissQueue: true,
+		                            layout      : 'topCenter',
+		                            theme       : 'relax',
+		                            timeout   : 1500,
+		                            callback: {     // 设置回调函数
+		                                afterClose: function() {
+	                                    	location.reload();
+		                                }
+		                            }
+		                        });
+		                    }else{
+		                        for(var msg in data.message){
+		                            var n = noty({
+		                                text        : msg,
+		                                type        : 'error',
+		                                dismissQueue: true,
+		                                layout      : 'topCenter',
+		                                theme       : 'relax',
+		                                timeout   : 1500
+		                            });
+		                        }
+		                    }
+		                }
+		            },
+		            error:function(data){
+		                alert(data.message);
+		            }
+		        });
+	        }
 	    });
 	});
 

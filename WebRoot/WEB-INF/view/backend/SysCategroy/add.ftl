@@ -1,6 +1,5 @@
 <#assign allowType= 'jpg,png,jpeg,bmp'>
 <link rel="stylesheet" type="text/css" href="${base}/static/backend/plugins/uploadify/uploadify.css"/>
-<script type="text/javascript" src="${base}/static/backend/plugins/uploadify/jquery.uploadify.min.js"></script>	
 
 <section class="content">
 	<ol class="breadcrumb">
@@ -19,6 +18,7 @@
 						<div class="col-md-6">
 						    <input type="text" id="serviceName" name="serviceName" value="${(entity.serviceName)!}" class="form-control"/>
 						</div>
+						<div class="col-md-3"><font id="require-serviceName" ></font><span id="errormsg-serviceName" class="error"></span></div>
 					</div>
 						
 					<div class="form-group">
@@ -29,6 +29,7 @@
 							</div>
 							<input type="hidden" id="icon" name="icon" />
 						</div>
+						<div class="col-md-3"><font id="require-icon" style="color:red;">*</font><span id="errormsg-icon" class="error"></span></div>
 					</div>
 						
 					<div class="form-group">
@@ -39,13 +40,17 @@
 							</div>
 							<input type="hidden" id="covers" name="covers" />
 						</div>
+						<div class="col-md-3"><font id="require-covers" style="color:red;">*</font><span id="errormsg-covers" class="error"></span></div>
 					</div>
 					
 					<div class="form-group">
 						<label for="serviceDesc" class="col-md-3 control-label no-padding-right"> 服务简介 </label>
 						<div class="col-md-6">
-							<input type="text" id="serviceDesc" name="serviceDesc" value="${(entity.serviceDesc)!}" class="form-control"/>
+							<textarea name="serviceDesc" id="serviceDesc" ref="serviceDesc" class="form-control">
+								${(entity.serviceDesc)!}
+							</textarea>
 						</div>
+						<div class="col-md-3"><font id="require-serviceDesc" ></font><span id="errormsg-serviceDesc" class="error"></span></div>
 					</div>
 						
 					<div class="form-group">
@@ -61,6 +66,10 @@
 	</div>
 </section>
 
+<script type="text/javascript" src="${base}/static/backend/plugins/uploadify/jquery.uploadify.min.js"></script>	
+<script type="text/javascript" src="${base}/static/backend/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" src="${base}/static/backend/kindeditor/lang/zh-CN.js"></script>
+<script type="text/javascript" src="${base}/static/validatejs/SysCategroy.js"></script>	
 <script type="text/javascript">
 function deleteImg(obj){
 	var imgPath=$(obj).prev().attr("path");
@@ -115,50 +124,72 @@ function deleteImg(obj){
 
 jQuery(function($) {
 	$(".select2").select2();
+	$("#myFormId").validate(saveSysCategroyConfig);
+	
+	var editor = KindEditor.create('textarea[name="serviceDesc"]', {
+		width : '100%',
+		height : '400px',
+    	urlType : 'absolute',
+		allowFileManager : true,
+		items: ['source','undo','redo','preview','print','cut','copy','paste','plainpaste','wordpaste','justifyleft','justifycenter','justifyright',
+		'justifyfull','insertorderedlist','insertunorderedlist','indent','outdent','subscript','superscript','clearhtml','quickformat','selectall','fullscreen','formatblock',
+		'fontname','fontsize','forecolor','hilitecolor','bold','italic','underline','strikethrough','lineheight','removeformat','image','table','hr','emoticons',
+		'pagebreak','anchor','link','unlink'],
+		uploadJson:'${base}/uploadFile/uploadImg.json',
+		afterCreate : function() { 
+         this.sync(); 
+        },
+		afterBlur:function(){ 
+            this.sync(); 
+        } 
+	});	
+	
 	$(".btn-save").click(function(){
-		$.ajax({  
-	        type:'post',  
-	        traditional :true,  
-	        url:'${base}/admin/service/save.json',  
-	        data:$("#myFormId").serialize(),  
-	        success:function(data){
-	        	switch(data.code){
-	        	case 401:
-	        		location.href = data.message;
-        			break;
-        		default:
-	        		if (data.success){
-		        		var n = noty({
-				            text        : data.message,
-				            type        : 'success',
-				            dismissQueue: true,
-				            layout      : 'topCenter',
-				            theme       : 'relax',
-				            timeout		: 1500,
-				            callback: {     // 设置回调函数
-						        afterClose: function() {
-                                	location.reload();
-						        }
-						    }
-				        });
-		        	}else{
-		        		for(var msg in data.message){
+		if($("#myFormId").validateForm(saveSysCategroyConfig)) {
+			$.ajax({  
+		        type:'post',  
+		        traditional :true,  
+		        url:'${base}/admin/service/save.json',  
+		        data:$("#myFormId").serialize(),  
+		        success:function(data){
+		        	switch(data.code){
+		        	case 401:
+		        		location.href = data.message;
+	        			break;
+	        		default:
+		        		if (data.success){
 			        		var n = noty({
-					            text        : msg,
-					            type        : 'error',
+					            text        : data.message,
+					            type        : 'success',
 					            dismissQueue: true,
 					            layout      : 'topCenter',
 					            theme       : 'relax',
-					            timeout		: 1500
+					            timeout		: 1500,
+					            callback: {     // 设置回调函数
+							        afterClose: function() {
+	                                	location.reload();
+							        }
+							    }
 					        });
+			        	}else{
+			        		for(var msg in data.message){
+				        		var n = noty({
+						            text        : msg,
+						            type        : 'error',
+						            dismissQueue: true,
+						            layout      : 'topCenter',
+						            theme       : 'relax',
+						            timeout		: 1500
+						        });
+				        	}
 			        	}
 		        	}
-	        	}
-	        },
-	        error:function(data){
-	        	alert('ajax错误');
-	        }
-	    });
+		        },
+		        error:function(data){
+		        	alert('ajax错误');
+		        }
+		    });
+	    }
 	});
 	
 	$("#iconBtn").uploadify({

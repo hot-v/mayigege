@@ -1,6 +1,5 @@
 package com.yijiwenhua.backend.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.likegene.framework.core.QueryFilter;
 import com.likegene.framework.core.Result;
+import com.likegene.framework.core.formvalidator.FormValidatorManager;
 import com.yijiwenhua.backend.model.SysRole;
 import com.yijiwenhua.backend.model.SysRoleResource;
 import com.yijiwenhua.backend.model.SysUserRole;
@@ -150,7 +150,7 @@ public class SysRoleController extends BaseController {
 	public ResponseData save(ModelMap model,
 			@ModelAttribute("entity") SysRole entity,
 			HttpServletRequest request, HttpServletResponse response) {
-		Map<String, Object> errors = new HashMap<String, Object>();
+		Map<String,Object> errors = FormValidatorManager.validate("saveSysRoleConfig", request);
 		if (errors.size() != 0) {
 			return new ResponseData(false, errors);
 		}
@@ -236,6 +236,10 @@ public class SysRoleController extends BaseController {
 			@ModelAttribute("entity") SysRole entity,
 			HttpServletRequest request, HttpServletResponse response) {
 
+		Map<String,Object> errors = FormValidatorManager.validate("saveSysRoleConfig", request);
+		if (errors.size() != 0) {
+			return new ResponseData(false, errors);
+		}
 		Result result = service.update(entity);
 		String resources = request.getParameter("resources");
 
