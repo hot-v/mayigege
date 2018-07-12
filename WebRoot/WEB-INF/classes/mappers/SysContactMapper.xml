@@ -17,7 +17,7 @@
 	proc_time : 处理时间
 	-->
 	<sql id="fields_sql">
-	`id` ,`username` ,`mobile` ,`email` ,`title` ,`content` ,`id_processed` ,`create_time` ,`proc_result` ,`proc_user_id` ,`proc_time` 
+	`id` ,`username` ,`mobile` ,`email` ,`title` ,`content` ,`is_processed` ,`create_time` ,`proc_result` ,`proc_user_id` ,`proc_time` 
 	</sql>
 	
 	<sql id="where_sql">
@@ -39,8 +39,8 @@
 		<if test="content != null and content != ''">
 			AND `content` like CONCAT('%', #{escape_content}, '%')
 		</if>
-		<if test="idProcessed != null and idProcessed != ''">
-			AND `id_processed` like CONCAT('%', #{escape_idProcessed}, '%')
+		<if test="isProcessed != null and isProcessed != ''">
+			AND `is_processed` like CONCAT('%', #{escape_isProcessed}, '%')
 		</if>
 		<if test="createTime != null">
 			AND `create_time`  = #{createTime}
@@ -83,10 +83,10 @@
 	
 	<insert id="save" parameterType="SysContact">
 		insert into sys_contact  (
-		`username` ,`mobile` ,`email` ,`title` ,`content` ,`id_processed` ,`create_time` ,`proc_result` ,`proc_user_id` ,`proc_time` 
+		`username` ,`mobile` ,`email` ,`title` ,`content` ,`is_processed` ,`create_time` ,`proc_result` ,`proc_user_id` ,`proc_time` 
 		)
 		values (
-		#{username},#{mobile},#{email},#{title},#{content},#{idProcessed},#{createTime},#{procResult},#{procUserId},#{procTime}
+		#{username},#{mobile},#{email},#{title},#{content},#{isProcessed},#{createTime},#{procResult},#{procUserId},#{procTime}
 		)
 		<selectKey keyProperty="id" resultType="Long">
 			SELECT
@@ -112,8 +112,8 @@
 			<if test="content != null">
 				`content` = #{content},
 			</if>
-			<if test="idProcessed != null">
-				`id_processed` = #{idProcessed},
+			<if test="isProcessed != null">
+				`is_processed` = #{isProcessed},
 			</if>
 			<if test="createTime != null">
 				`create_time` = #{createTime},

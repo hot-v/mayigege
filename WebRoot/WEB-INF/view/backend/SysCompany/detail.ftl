@@ -32,7 +32,9 @@
 							<label for="descn" class="col-md-3 control-label no-padding-right">Logo</label>
 							<div class="col-md-6">
 								<div id="logoDiv">
-									<img src='${base}${entity.logo!}' path='${entity.logo!}' width='80px' height='80px' style='margin: 5px 5px 0 0'/>
+									<#if entity.logo?? && entity.logo!="">
+										<img src='${base}${entity.logo!}' path='${entity.logo!}' width='80px' height='80px' style='margin: 5px 5px 0 0'/>
+									</#if>
 								</div>
 								<input type="hidden" id="logo" name="logo" value="${entity.logo!}" />
 							</div>
@@ -44,6 +46,20 @@
 								<div id="coversDiv">
 									<#if (imgFiles)?exists && (imgFiles?size != 0)>
 										<#list imgFiles as obj>
+											<img src='${base}${obj.path!}' path='${obj.path!}' width='80px' height='80px' style='margin: 5px 5px 0 0'/>
+										</#list>
+									</#if>
+								</div>
+								<input type="hidden" id="covers" name="covers" value="${paths!}" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="covers" class="col-md-3 control-label no-padding-right">公司周边</label>
+							<div class="col-md-6">
+								<div id="coversDiv">
+									<#if (peripheryFiles)?exists && (peripheryFiles?size != 0)>
+										<#list peripheryFiles as obj>
 											<img src='${base}${obj.path!}' path='${obj.path!}' width='80px' height='80px' style='margin: 5px 5px 0 0'/>
 										</#list>
 									</#if>
@@ -71,7 +87,7 @@
 						<div class="form-group">
 							<label for="desc" class="col-md-3 control-label no-padding-right"> 公司简介 </label>
 							<div class="col-md-6">
-							    <input type="text" id="desc" name="desc" value="${(entity.desc)!}" class="form-control" disabled/>
+								<textarea name="desc" id="desc" ref="desc" class="form-control">${(entity.desc)!}</textarea>
 							</div>
 							<div class="col-md-3"><font id="require-desc" ></font><span id="errormsg-desc" class="error"></span></div>
 						</div>
@@ -89,8 +105,29 @@
 	</div>
 </section>
 
+<script type="text/javascript" src="${base}/static/backend/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" src="${base}/static/backend/kindeditor/lang/zh-CN.js"></script>
 <script type="text/javascript">
 jQuery(function($) {
 	$(".select2").select2();
+	
+	var editor = KindEditor.create('textarea[name="desc"]', {
+		width : '100%',
+		height : '400px',
+    	urlType : 'absolute',
+		allowFileManager : true,
+		items: ['source','undo','redo','preview','print','cut','copy','paste','plainpaste','wordpaste','justifyleft','justifycenter','justifyright',
+		'justifyfull','insertorderedlist','insertunorderedlist','indent','outdent','subscript','superscript','clearhtml','quickformat','selectall','fullscreen','formatblock',
+		'fontname','fontsize','forecolor','hilitecolor','bold','italic','underline','strikethrough','lineheight','removeformat','image','table','hr','emoticons',
+		'pagebreak','anchor','link','unlink'],
+		uploadJson:'${base}/uploadFile/uploadImg.json',
+		afterCreate : function() { 
+         this.sync(); 
+        },
+		afterBlur:function(){ 
+            this.sync(); 
+        } 
+	});	
+	editor.readonly(true);
 });
 </script>

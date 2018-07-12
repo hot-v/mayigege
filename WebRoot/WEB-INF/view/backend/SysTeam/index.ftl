@@ -1,5 +1,3 @@
-<#-----author:liuxiantao------->
-<#-----date:2017-04-07------->
 <@backend.header title="团队管理">
 
 </@backend.header>
@@ -36,8 +34,8 @@
 					 			<div class="row">
 						 			<div class="col-md-3">
 							 			<div class="form-group">
-											<label for="_username">用户名</label>
-	                                    	<input type="text" id="_username" name="username" value="${(RequestParameters.username)!}" class="form-control"/>
+											<label for="username">成员名称</label>
+	                                    	<input type="text" id="username" name="username" value="${(RequestParameters.username)!}" class="form-control"/>
 										</div>
 									</div>
 						 		</div>
@@ -56,12 +54,12 @@
 			                            <thead>
 				                            <tr>
 				                                <th class="hide">id</th>
-				                                <th>用户名</th>
-				                                <th>姓名</th>
-				                                <th>角色</th>
-				                                <th>类型</th><#assign isSuperadmins={'0':'普通管理员','1':'超级管理员'}>
-				                                <th>状态</th><#assign isDisableds={'0':'启用','1':'禁用'}>
-				                                <th>备注</th>
+				                                <th>成员名称</th>
+				                                <th>性别</th><#assign sexMap={'0':'女','1':'男'}>
+				                                <th>头像</th>
+				                                <th>职务</th>
+				                                <th>电话</th>
+				                                <th>邮箱</th>
 				                                <th width="200px">操作</th>
 				                            </tr>
 			                            </thead>
@@ -71,11 +69,13 @@
 			                                    <tr>
 			                                        <td class="pk hide" id="id" title="${(entity.id)!}">${(entity.id)!}</td>
 			                                        <td title="${(entity.username)!}">${(entity.username)!}</td>
-			                                        <td title="${(entity.fullname)!}">${(entity.fullname)!}</td>
-			                                        <td title="${(entity.roleName)!}">${(entity.roleName)!}</td>
-			                                        <td title="${(isSuperadmins[''+entity.isSuperadmin])!}">${(isSuperadmins[''+entity.isSuperadmin])!}</td>
-			                                        <td title="${(isDisableds[''+entity.isDisabled])!}">${(isDisableds[''+entity.isDisabled])!}</td>
-			                                        <td title="${(entity.remark)!}">${(entity.remark)!}</td>
+			                                        <td title="${(sexMap[entity.sex?string])!}">${(sexMap[entity.sex?string])!}</td>
+			                                        <td title="${(entity.face)!}">
+			                                        	<img src="${base}${entity.face!}" style="width:100px;height:100px;" />
+			                                        </td>
+			                                        <td title="${(categroyMap[entity.positionId])!}">${(categroyMap[entity.positionId])!}</td>
+			                                        <td title="${(entity.mobile)!}">${(entity.mobile)!}</td>
+			                                        <td title="${(entity.email)!}">${(entity.email)!}</td>
 			                                        <td>
 			                                        	<a href="tab-content-detail" data-toggle="tab" onclick="opre('${(entity.id)!}','1')">查看</a>
 			                                            <a href="tab-content-edit" data-toggle="tab" onclick="opre('${(entity.id)!}','2')">编辑</a>
@@ -113,6 +113,10 @@
 		
 		//tab显示监听
 		$('a[data-toggle="tab"]').on('shown.bs.tab',function(e){
+			showCount = showCount + 1;
+			if(showCount>1)
+				return false;
+			
 			var $this = $(e.target);
 			var curPage = $this.attr("href");
 			var id = $("#update_id").val();

@@ -46,7 +46,7 @@
 			AND `ref_id` = #{refId}
 		</if>
 		<if test="refObj != null and refObj != ''">
-			AND `ref_obj` like CONCAT('%', #{escape_refObj}, '%')
+			AND `ref_obj` = #{refObj}
 		</if>
 		<if test="userId != null">
 			AND `user_id`  = #{userId}
@@ -144,6 +144,9 @@
 		`ref_id` = #{refId}
 		<if test="path != null and path != ''">
 			AND `path` = #{path}
+		</if>
+		<if test="refObj != null and refObj != ''">
+			AND `ref_obj` = #{refObj}
 		</if>
 	</delete>
 </mapper>

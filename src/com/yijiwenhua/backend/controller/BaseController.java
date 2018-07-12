@@ -32,7 +32,7 @@ import com.yijiwenhua.mayigege.core.ResponseData;
 
 abstract public class BaseController {
 
-    protected final Logger logger       = LoggerFactory.getLogger(this.getClass());
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	public final static String EXCEPTION_MESSAGE = "EXCEPTION_MESSAGE";
 	

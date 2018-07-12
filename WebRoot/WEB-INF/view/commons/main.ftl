@@ -10,6 +10,8 @@
 	<link rel="stylesheet" href="${base}/static/css/animate.min.css">
 	<link rel="stylesheet" href="${base}/static/css/googleapis.css">
 	<link rel="stylesheet" href="${base}/static/css/templatemo-style.css">
+	<link rel="stylesheet" type="text/css" href="${base}/static/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" href="${base}/static/css/popup.css" />
 <#nested>
 </head>
 </#macro>
@@ -34,6 +36,7 @@
 	<script src="${base}/static/js/wow.min.js"></script>
 	<script src="${base}/static/js/jquery.flexslider.js"></script>
 	<script src="${base}/static/js/templatemo-script.js"></script>
+	<script src="${base}/static/js/popup.js"></script>
 <#nested>
 </html>
 </#macro>

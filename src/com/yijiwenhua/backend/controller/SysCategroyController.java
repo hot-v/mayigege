@@ -109,6 +109,7 @@ public class SysCategroyController extends BaseController{
         
         filter = new QueryFilter();
         filter.put("refId", id);
+        filter.put("refObj",Constant.SysFile.RefObj.Keys.SYS_CATEGROY);
         List<SysFile> files = sysFileService.findList(filter).getReturnObj();
         request.setAttribute("imgFiles", files);
         return "/backend/SysCategroy/detail";
@@ -122,6 +123,7 @@ public class SysCategroyController extends BaseController{
         
         filter = new QueryFilter();
         filter.put("refId", id);
+        filter.put("refObj",Constant.SysFile.RefObj.Keys.SYS_CATEGROY);
         List<SysFile> files = sysFileService.findList(filter).getReturnObj();
         StringBuilder paths = null;
         if(files.size() > 0){
@@ -161,6 +163,7 @@ public class SysCategroyController extends BaseController{
 					QueryFilter filter = new QueryFilter();
 					filter.setStatementKey(SysFileService.DELETE_BY_REFID);
 					filter.put("refId", entity.getId());
+			        filter.put("refObj",Constant.SysFile.RefObj.Keys.SYS_CATEGROY);
 					sysFileService.delete(filter);
 				}
 				

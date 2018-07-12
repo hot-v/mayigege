@@ -10,6 +10,11 @@ import java.io.Serializable;
 public class SysContact implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	/**已处理*/
+	public static int IS_PROCESSED_YES = 1;
+	/**未处理*/
+	public static int IS_PROCESSED_NO = 0;
+	
 	/**id*/
 	private Long id;
 	
@@ -29,7 +34,7 @@ public class SysContact implements Serializable{
 	private String content;
 	
 	/**是否处理(0:否、1:是)*/
-	private String idProcessed;
+	private int isProcessed;
 	
 	/**咨询时间*/
 	private java.util.Date createTime;
@@ -98,19 +103,20 @@ public class SysContact implements Serializable{
 	}
 	
 	/**是否处理(0:否、1:是)*/
-	public String getIdProcessed() {
-		return idProcessed;
+	public int getIsProcessed() {
+		return isProcessed;
+	}
+
+	public void setIsProcessed(int isProcessed) {
+		this.isProcessed = isProcessed;
 	}
 	
-	public void setIdProcessed(String idProcessed) {
-		this.idProcessed = idProcessed;
-	}
 	
 	/**咨询时间*/
 	public java.util.Date getCreateTime() {
 		return createTime;
 	}
-	
+
 	public void setCreateTime(java.util.Date createTime) {
 		this.createTime = createTime;
 	}

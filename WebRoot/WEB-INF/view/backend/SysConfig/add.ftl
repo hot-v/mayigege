@@ -23,9 +23,9 @@
 						</div>
 					</div>
 					<div class="form-group">
-		                <label for="descn" class="col-md-3 control-label no-padding-right"> 描述 </label>
+		                <label for="desc" class="col-md-3 control-label no-padding-right"> 描述 </label>
 		                <div class="col-md-6">
-		                    <input type="text" id="descn" name="descn" value="${(entity.descn)!}" class="form-control"/>
+		                    <input type="text" id="desc" name="desc" value="${(entity.desc)!}" class="form-control"/>
 		                </div>
 	            	</div>
 			        <div class="form-group">

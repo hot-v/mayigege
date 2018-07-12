@@ -16,7 +16,7 @@
 						<span class="icon icon-bar"></span>
 						<span class="icon icon-bar"></span>
 					</button>
-					<a href="#" class="navbar-brand"><h3>CRYSTAL</h3></a>
+					<a href="${base}" class="navbar-brand"><h3>MAYI</h3></a>
 				</div>
 				<div class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-right">
@@ -38,12 +38,12 @@
 	<section id="home" class="text-center">
 	  <div class="templatemo_headerimage">
 	    <div class="flexslider">
-	      <ul class="slides">
+	      <ul class="slides" id="topImages" >
 	      	<#if (categroyList)?exists && ((categroyList)?size != 0)>
 				<#list coverList as cover>
 			        <li>
-			        	<img src="${base}${cover.path!}" alt="Slide 1">
-			        	<div class="slider-caption">
+			        	<img src="${base}${cover.path!}" style="max-height:1200px;height:auto;" />
+			        	<!-- <div class="slider-caption">
 						    <div class="templatemo_homewrapper">
 						      <h1 class="wow fadeInDown" data-wow-delay="2000">hello, this is web &AMP; mobile studio</h1>
 						      <h2 class="wow fadeInDown" data-wow-delay="2000">
@@ -52,49 +52,10 @@
 							<p>it is built on html5, css3, bootstrap, and much more!</p>
 							<a href="#work" class="smoothScroll btn btn-default wow fadeInDown" data-wow-delay="2000">Our Work</a>	
 						    </div>
-					  	</div>
+					  	</div> -->
 			        </li>
 				</#list>
 			</#if>
-	        <#-- <li>
-	        	<img src="${base}/static/images/slider/1.jpg" alt="Slide 1">
-	        	<div class="slider-caption">
-				    <div class="templatemo_homewrapper">
-				      <h1 class="wow fadeInDown" data-wow-delay="2000">hello, this is web &AMP; mobile studio</h1>
-				      <h2 class="wow fadeInDown" data-wow-delay="2000">
-						<span class="rotate">fully responsive business one page, clean design and easy to customize</span>
-					</h2>
-					<p>it is built on html5, css3, bootstrap, and much more!</p>
-					<a href="#work" class="smoothScroll btn btn-default wow fadeInDown" data-wow-delay="2000">Our Work</a>	
-				    </div>
-			  	</div>
-	        </li>
-	        <li>
-	        	<img src="${base}/static/images/slider/2.jpg" alt="Slide 2">
-	        	<div class="slider-caption">
-				    <div class="templatemo_homewrapper">
-				      <h1 class="wow fadeInDown" data-wow-delay="2000">Flex Slider, CSS Flexbox</h1>
-				      <h2 class="wow fadeInDown" data-wow-delay="2000">
-						<span class="rotate">work on all modern browsers, Works on IE 10+</span>
-					</h2>
-					<p>see caniuse.com for browser compatibility information</p>
-					<a href="#about" class="smoothScroll btn btn-default wow fadeInDown" data-wow-delay="2000">See about us</a>	
-				    </div>
-			  	</div>
-	        </li>
-	        <li>
-	        	<img src="${base}/static/images/slider/3.jpg" alt="Slide 3">
-	        	<div class="slider-caption">
-				    <div class="templatemo_homewrapper">
-				      <h1 class="wow fadeInDown" data-wow-delay="2000">Special Thanks</h1>
-				      <h2 class="wow fadeInDown" data-wow-delay="2000">
-						<span class="rotate">unsplash.com, flexslider, bootstrap, jquery</span>
-					</h2>
-					<p>Feel free to look around and customize to suit your needs.</p>
-					<a href="#service" class="smoothScroll btn btn-default wow fadeInDown" data-wow-delay="2000">Our Services</a>	
-				    </div>
-			  	</div>
-	        </li> -->
 	      </ul>
 	    </div>
 	  </div>				
@@ -106,61 +67,26 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 wow fadeInDown" data-wow-delay="2000">
-					<h3>CRYSTAL WORK</h3>
+					<h3>${configMap['design_case'].val!}</h3>
 				</div>
 				<div class="col-md-2"></div>
 				<div class="col-md-8">
-					<p>Mauris mattis vitae libero eget iaculis. Donec et augue quis quam porttitor consectetur ut nec sem. Integer sagittis viverra quam quis ultricies. Aenean risus nisl, consequat at nunc id, tincidunt tristique mauris.</p>
+					<p>${configMap['design_case'].desc!}</p>
 				</div>
 				<div class="col-md-2"></div>
-				<div class="col-sm-6 col-md-4 wow fadeInLeft" data-wow-delay="2000">
-					<div class="work_thumb">
-						<img src="${base}/static/images/work-img-1.jpg" class="img-responsive" alt="work">
-							<div class="work_overlay">
-								<a href="#"><i class="fa fa-thumbs-o-up"></i></a>
+				
+				<#if (activityList)?exists && ((activityList)?size != 0)>
+					<#list activityList as activity>
+						<div class="col-sm-6 col-md-4 wow fadeInLeft" data-wow-delay="2000">
+							<div class="work_thumb">
+								<img src="${base}${activity.files[0].path!}" class="img-responsive" alt="case" style="width:100%;height:250px;" />
+								<!-- <div class="work_overlay">
+									<a href="#"><i class="fa fa-thumbs-o-up"></i></a>
+								</div> -->
 							</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 wow fadeInDown" data-wow-delay="2000">
-					<div class="work_thumb">
-						<img src="${base}/static/images/work-img-2.jpg" class="img-responsive" alt="work">
-							<div class="work_overlay">
-								<a href="#"><i class="fa fa-thumbs-o-up"></i></a>
-							</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 wow fadeInRight" data-wow-delay="2000">
-					<div class="work_thumb">
-						<img src="${base}/static/images/work-img-3.jpg" class="img-responsive" alt="work">
-							<div class="work_overlay">
-								<a href="#"><i class="fa fa-thumbs-o-up"></i></a>
-							</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 wow fadeInLeft" data-wow-delay="2000">
-					<div class="work_thumb">
-						<img src="${base}/static/images/work-img-4.jpg" class="img-responsive" alt="work">
-							<div class="work_overlay">
-								<a href="#"><i class="fa fa-thumbs-o-up"></i></a>
-							</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 wow fadeInUp" data-wow-delay="2000">
-					<div class="work_thumb">
-						<img src="${base}/static/images/work-img-5.jpg" class="img-responsive" alt="work">
-							<div class="work_overlay">
-								<a href="#"><i class="fa fa-thumbs-o-up"></i></a>
-							</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 wow fadeInRight" data-wow-delay="2000">
-					<div class="work_thumb">
-						<img src="${base}/static/images/work-img-1.jpg" class="img-responsive" alt="work">
-							<div class="work_overlay">
-								<a href="#"><i class="fa fa-thumbs-o-up"></i></a>
-							</div>
-					</div>
-				</div>
+						</div>
+					</#list>
+				</#if>
 			</div>
 		</div>
 	</section>
@@ -171,78 +97,34 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 wow fadeInDown" data-wow-delay="900">
-					<h3>MEET CRYSTAL TEAM</h3>
+					<h3>${configMap['our_team'].val!}</h3>
 				</div>
 				<div class="col-md-2"></div>
 				<div class="col-md-8">
-					<p>Mauris mattis vitae libero eget iaculis. Donec et augue quis quam porttitor consectetur ut nec sem. Integer sagittis viverra quam quis ultricies. Aenean risus nisl, consequat at nunc id, tincidunt tristique mauris.</p>
+					<p>${configMap['our_team'].desc!}</p>
 				</div>
 				<div class="col-md-2"></div>
-				<div class="col-sm-6 col-md-3 wow fadeInLet" data-wow-delay="2000">
-					<div class="team_thumb">
-						<img src="${base}/static/images/team-img-1.jpg" class="img-responsive" alt="team">
-							<div class="team_overlay">
-								<ul class="social_icon">
-									<li><a href="#" class="fa fa-facebook"></a></li>
-									<li><a href="#" class="fa fa-twitter"></a></li>
-									<li><a href="#" class="fa fa-pinterest"></a></li>
-								</ul>								
+				
+				<#if (memberList)?exists && ((memberList)?size != 0)>
+					<#list memberList as member>
+						<div class="col-sm-6 col-md-3 wow fadeInLet" data-wow-delay="2000">
+							<div class="team_thumb">
+								<img src="${base}${member.face!}" class="img-responsive" alt="person" style="width:100%;height:200px;" />
+								<!-- <div class="team_overlay">
+									<ul class="social_icon">
+										<li><a href="#" class="fa fa-facebook"></a></li>
+										<li><a href="#" class="fa fa-twitter"></a></li>
+										<li><a href="#" class="fa fa-pinterest"></a></li>
+									</ul>								
+								</div> -->
 							</div>
-					</div>
-					<div class="team_description">
-						<h4>TRACY</h4>
-						<h5>DESIGNER</h5>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-3 wow fadeInUp" data-wow-delay="2000">
-					<div class="team_thumb">
-						<img src="${base}/static/images/team-img-2.jpg" class="img-responsive" alt="team">
-							<div class="team_overlay">
-								<ul class="social_icon">
-									<li><a href="#" class="fa fa-facebook"></a></li>
-									<li><a href="#" class="fa fa-twitter"></a></li>
-									<li><a href="#" class="fa fa-pinterest"></a></li>
-								</ul>
+							<div class="team_description">
+								<h4>${member.username!}</h4>
+								<h5>${configMap[member.positionId].val!}</h5>
 							</div>
-					</div>
-					<div class="team_description">
-						<h4>MARY</h4>
-						<h5>DEVELOPER</h5>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-3 wow fadeInUp" data-wow-delay="2000">
-					<div class="team_thumb">
-						<img src="${base}/static/images/team-img-3.jpg" class="img-responsive" alt="team">
-							<div class="team_overlay">
-								<ul class="social_icon">
-									<li><a href="#" class="fa fa-facebook"></a></li>
-									<li><a href="#" class="fa fa-twitter"></a></li>
-									<li><a href="#" class="fa fa-pinterest"></a></li>
-								</ul>
-							</div>
-					</div>
-					<div class="team_description">
-						<h4>JULIA</h4>
-						<h5>DIRECTOR</h5>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-3 wow fadeInRight" data-wow-delay="2000">
-					<div class="team_thumb">
-						<img src="${base}/static/images/team-img-4.jpg" class="img-responsive" alt="team">
-							<div class="team_overlay">
-								<ul class="social_icon">
-									<li><a href="#" class="fa fa-facebook"></a></li>
-									<li><a href="#" class="fa fa-twitter"></a></li>
-									<li><a href="#" class="fa fa-pinterest"></a></li>
-								</ul>
-							</div>
-					</div>
-					<div class="team_description">
-						<h4>LINDA</h4>
-						<h5>MANAGER</h5>
-					</div>
-				</div>
-						
+						</div>
+					</#list>
+				</#if>
 			</div>
 		</div>
 	</section>
@@ -253,13 +135,20 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6 col-md-7 wow fadeInLeft" data-wow-delay="2000">
-					<h3>Welcome to CRYSTAL Design</h3>
-					<h2>Digital Studio in Bangkok</h2>
-					<p>Crystal is free web template for everyone. Feel free to use it for your website. Please spread a word about <span class="blue">template</span><span class="green">mo</span> to your friends. Integer lorem magna, gravida vitae metus a, euismod faucibus nisi. In sed nulla magna. Nulla in mauris ullamcorper, cursus lorem lobortis, pellentesque enim. Ut vel pellentesque est. Maecenas sed malesuada tellus.</p>
+					<h2>${company.name!}</h2>
+					<h4>${company.address!}</h4>
+					<p>${company.desc!}</p>
 				</div>
 				<div class="col-sm-6 col-md-5 wow fadeInRight" data-wow-delay="2000">
-					<h3>Our Location</h3>
-					<div class="col-md-6 col-sm-6 col-xs-6">
+					<h3>周边信息</h3>
+					<#if (peripheryFiles)?exists && ((peripheryFiles)?size != 0)>
+						<#list peripheryFiles as periphery>
+							<div class="col-md-6 col-sm-6 col-xs-6">
+								<img src="${base}${periphery.path!}" class="img-responsive">
+							</div>
+						</#list>
+					</#if>
+					<#-- <div class="col-md-6 col-sm-6 col-xs-6">
 						<img src="${base}/static/images/company-img-1.jpg" class="img-responsive" alt="company 1">
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-6">
@@ -270,7 +159,7 @@
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-6">
 						<img src="${base}/static/images/company-img-4.jpg" class="img-responsive" alt="company 4">
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
@@ -282,11 +171,11 @@
 		<div class="container">
 			<div class="row">
 				<div class="text-center col-md-12 wow fadeInDown" data-wow-delay="2000">
-					<h3>CRYSTAL SERVICES</h3>
+					<h3>${configMap['service_Items'].val!}</h3>
 				</div>
 				<div class="col-md-2"></div>
 				<div class="col-md-8 text-center">
-					<p>Mauris mattis vitae libero eget iaculis. Donec et augue quis quam porttitor consectetur ut nec sem. Integer sagittis viverra quam quis ultricies. Aenean risus nisl, consequat at nunc id, tincidunt tristique mauris.</p>
+					<p>${configMap['service_Items'].desc!}</p>
 				</div>
 				<div class="col-md-2"></div>
 				
@@ -294,11 +183,13 @@
 					<#list categroyList as categroy>
 						<div class="col-sm-6 col-md-4 wow fadeInLeft" data-wow-delay="2000">
 							<div class="media">
-								<i class="fa fa-cog pull-left media-object"></i>
-									<div class="media-body">
-										<h4 class="media-heading">${categroy.serviceName!}</h4>
-										<p>${categroy.serviceDesc!}</p>
-									</div>
+								<i class="pull-left media-object">
+									<img src="${base}${categroy.icon!}" style="width:60px;height:60px;border-radius:60px;" />
+								</i>
+								<div class="media-body">
+									<h4 class="media-heading">${categroy.serviceName!}</h4>
+									<p>${categroy.serviceDesc!}</p>
+								</div>
 							</div>
 						</div>
 					</#list>
@@ -407,33 +298,33 @@
 	<!-- end pricing -->
 	
 	<!-- start contact -->
-	<section id="contact" class="text-center">
+	<section id="contact" class="text-center" style="background: #404040 url('${base}${company.logo!}') no-repeat;background-size: cover;background-attachment: fixed;color: #FFFFFF;min-height: 300px;padding: 80px 0 60px 0;">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 wow fadeInDown" data-wow-delay="2000">
-					<h3>CONTACT CRYSTAL</h3>
+					<h3>${configMap['contact_us'].val!}</h3>
 				</div>
 				<div class="col-md-2"></div>
 				<div class="col-md-8">
-					<p>Mauris mattis vitae libero eget iaculis. Donec et augue quis quam porttitor consectetur ut nec sem. Integer sagittis viverra quam quis ultricies. Aenean risus nisl, consequat at nunc id, tincidunt tristique mauris.</p>
+					<p>${configMap['contact_us'].desc!}</p>
 				</div>
 				<div class="col-md-2"></div>
 				<form id="contactForm" method="post">
 					<div class="col-md-4 wow fadeInLeft" data-wow-delay="2000">
-						<input type="text" placeholder="Name" class="form-control">
+						<input type="text" placeholder="请填写您的姓名" name="username" id="username" class="form-control">
 					</div>
 					<div class="col-md-4 wow fadeInDown" data-wow-delay="2000">
-						<input type="email" placeholder="Email" class="form-control" required>
+						<input type="email" placeholder="请填写您的联系方式" name="contactInfo" id="contactInfo" class="form-control" required>
 					</div>
 					<div class="col-md-4 wow fadeInRight" data-wow-delay="2000">
-						<input type="text" placeholder="Subject" class="form-control">
+						<input type="text" placeholder="请填写咨询标题" name="title" id="title" class="form-control">
 					</div>
 					<div class="col-md-12 wow fadeInDown" data-wow-delay="2000">
-						<textarea placeholder="Message" class="form-control"></textarea>
+						<textarea placeholder="请将您的意见与建议留言给我们" name="content" id="content" class="form-control"></textarea>
 					</div>
 					<div class="col-md-3"></div>
 					<div class="col-md-6 wow fadeInUp" data-wow-delay="2000">
-						<input type="button" value="SHOOT MESSAGE" class="form-control" style="background-color:#66AF33;" />
+						<input type="button" value="留言" class="form-control" style="background-color:#66AF33;" id="leavingMessage" />
 					</div>
 					<div class="col-md-3"></div>
 				</form>
@@ -445,10 +336,10 @@
 		<footer class="container">
 			<div class="col-md-12 wow fadeInUp" data-wow-duration="0.4s" data-wow-delay="0.4s">
 				<span>
-                	Copyright &copy; 2015 Your Company Name
+                	Copyright &copy; 2019 上海义吉文化传播有限公司
                 </span>
-				<ul class="social_icon">
-			    <li><a href="#" class="fa fa-facebook"></a></li>
+				<ul class="social_icon hide">
+			    	<li><a href="#" class="fa fa-facebook"></a></li>
 					<li><a href="#" class="fa fa-twitter"></a></li>
 					<li><a href="#" class="fa fa-instagram"></a></li>
 					<li><a href="#" class="fa fa-apple"></a></li>
@@ -463,52 +354,93 @@
 
 <@main.footer>
 	<script>
+		var topPicHeight = 0;
+		function showPrompt(content){
+			var popup = new Popup({
+				'type': 'info',
+				'title': '提示',
+				'bgcolor': '#66AF33',
+				'text': content
+			});
+			setTimeout(function(){
+			   $('.popup-close').click();
+			}, 3000);
+		}
+		
 		jQuery(function($) {
-			$(".btn-save").click(function(){
+			topPicHeight = $("#topImages li").eq(0).height();
+			$("#leavingMessage").click(function(){
+				var username = $("#username").val();
+				var contactInfo = $("#contactInfo").val();
+				var title = $("#title").val();
+				var content = $("#content").val();
+					
+				if(username == ""){
+					showPrompt('请输入您的姓名');
+					return false;
+				}else{
+					if(username.length>20){
+						showPrompt('姓名长度不超过20个字符');
+						return false;
+					}
+				}
+				if(contactInfo == ""){
+					showPrompt('请输入您的联系方式');
+					return false;
+				}else{
+					var phoneReg = /^1\d{10}$/;
+					var emailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+					if(!phoneReg.test(contactInfo) && !emailReg.test(contactInfo)){
+						showPrompt('请输入正确格式的手机号或邮箱');
+						return false;
+					}
+				}
+				if(title == ""){
+					showPrompt('请输入标题内容');
+					return false;
+				}else{
+					if(title.length>50){
+						showPrompt('标题内容不超过50个字符');
+						return false;
+					}
+				}
+				if(content == ""){
+					showPrompt('请输入留言内容');
+					return false;
+				}else{
+					if(title.length>500){
+						showPrompt('留言内容不超过500个字符');
+						return false;
+					}
+				}
+				
 				$.ajax({  
 			        type:'post',  
 			        traditional :true,  
-			        url:'${base}/admin/config/update.json',  
-			        data:$("#myFormId").serialize(),  
+			        url:'${base}/admin/contact/save.json',
+			        data:$("#contactForm").serialize(),  
 			        success:function(data){
-			        	switch(data.code){
-			        	case 401:
-			        		location.href = data.message;
-		        			break;
-		        		default:
-			        		if (data.success){
-				        		var n = noty({
-						            text        : data.message,
-						            type        : 'success',
-						            dismissQueue: true,
-						            layout      : 'topCenter',
-						            theme       : 'relax',
-						            timeout		: 1500,
-						            callback: {     // 设置回调函数
-								        afterClose: function() {
-		                                	location.reload();
-								        }
-								    }
-						        });
-				        	}else{
-				        		for(var msg in data.message){
-					        		var n = noty({
-							            text        : msg,
-							            type        : 'error',
-							            dismissQueue: true,
-							            layout      : 'topCenter',
-							            theme       : 'relax',
-							            timeout		: 1500
-							        });
-					        	}
-				        	}
+		        		if (data.success){
+							showPrompt('留言成功');
+							$("#username").val("");
+							$("#contactInfo").val("");
+							$("#title").val("");
+							$("#content").val("");
+			        	}else{
+							showPrompt('留言失败，请稍后重试');
 			        	}
 			        },
 			        error:function(data){
-			        	alert('ajax错误');
+						showPrompt('留言失败，请稍后重试');
 			        }
 			    });
 			});
 		});
+		
+		/*window.onresize = function(){
+			var height = $("#topImages li").eq(0).height();
+			//alert(height);
+			$("#topImages li img").css("height",height);
+		}*/
 	</script>
 </@main.footer>

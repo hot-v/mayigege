@@ -14,6 +14,9 @@ public class SysCategroy implements Serializable{
 	/**id*/
 	private Long id;
 	
+	/**图标*/
+	private String icon;
+	
 	/**服务名称*/
 	private String serviceName;
 	
@@ -67,6 +70,14 @@ public class SysCategroy implements Serializable{
 
 	public void setPics(List<SysFile> pics) {
 		this.pics = pics;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 	
 }

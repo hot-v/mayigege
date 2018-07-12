@@ -17,7 +17,7 @@
 			<value>10000000, 10002000, 服务项目, /admin/service/index.html, ADMIN|CompanyServices:index,true,fa-newspaper-o</value>
 		
 		<!-- 设计案例 -->
-		<value>0, 20000000,设计案例,/admin/design/index.html,ADMIN|:sys:DesignManager,true,fa-angle-right</value>
+		<value>0, 20000000,活动管理,/admin/activity/index.html,ADMIN|:sys:ActivityManager,true,fa-angle-right</value>
 		
 		<!-- 团队管理 -->
 		<value>0, 30000000,团队管理,/admin/team/index.html,ADMIN|:sys:TeamManager,true,fa-angle-right</value>
@@ -47,6 +47,7 @@
         <value>/admin/login.* = anon</value>
         <value>/commons/500.* = anon</value>
         <value>/commons/404.* = anon</value>
+        <value>/admin/contact/save.json = anon</value>
         <value>/logout = logout</value>
 		<value>/admin/** =  authc</value>
 	</util:list>

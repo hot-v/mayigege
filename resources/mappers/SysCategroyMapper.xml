@@ -10,18 +10,21 @@
 	create_time : 创建时间
 	-->
 	<sql id="fields_sql">
-	`id` ,`service_name` ,`service_desc` ,`create_time` 
+	`id` ,`service_name` ,`service_desc` ,`create_time` ,`icon` 
 	</sql>
 	
 	<sql id="where_sql">
 		<if test="id != null">
 			AND `id`  = #{id}
 		</if>
+		<if test="icon != null">
+			AND `icon`  = #{icon}
+		</if>
 		<if test="serviceName != null and serviceName != ''">
-			AND `service_name` like CONCAT('%', #{escape_serviceName}, '%')
+			AND `service_name` like CONCAT('%', #{serviceName}, '%')
 		</if>
 		<if test="serviceDesc != null and serviceDesc != ''">
-			AND `service_desc` like CONCAT('%', #{escape_serviceDesc}, '%')
+			AND `service_desc` like CONCAT('%', #{serviceDesc}, '%')
 		</if>
 		<if test="createTime != null">
 			AND `create_time`  = #{createTime}
@@ -55,10 +58,10 @@
 	
 	<insert id="save" parameterType="SysCategroy">
 		insert into sys_categroy  (
-		`service_name` ,`service_desc` ,`create_time` 
+		`service_name` ,`service_desc` ,`create_time` ,`icon` 
 		)
 		values (
-		#{serviceName},#{serviceDesc},#{createTime}
+		#{serviceName},#{serviceDesc},#{createTime},#{icon}
 		)
 		<selectKey keyProperty="id" resultType="Long">
 			SELECT
@@ -69,6 +72,9 @@
 	<update id="update" parameterType="SysCategroy">
 		UPDATE sys_categroy
 		<set>
+			<if test="icon != null">
+				`icon` = #{icon},
+			</if>
 			<if test="serviceName != null">
 				`service_name` = #{serviceName},
 			</if>

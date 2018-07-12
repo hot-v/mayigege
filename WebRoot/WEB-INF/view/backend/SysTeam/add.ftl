@@ -5,7 +5,7 @@
 <section class="content">
 	<ol class="breadcrumb">
 		<li></li>
-		<li><a href="${base }/admin/user/index.html">团队管理</a></li>
+		<li><a href="${base }/admin/team/index.html">团队管理</a></li>
 		<li class="active">增加</li>
 	</ol>
    
@@ -17,15 +17,7 @@
 						<input type="hidden" name="id" value="${(entity.id)!}"/>
 						
 						<div class="form-group">
-							<label for="fullname" class="col-md-3 control-label no-padding-right"> 姓名 </label>
-							<div class="col-md-6">
-							    <input type="text" id="fullname" name="fullname" value="${(entity.fullname)!}" class="form-control"/>
-							</div>
-							<div class="col-md-3"><font id="require-fullname" ></font><span id="errormsg-fullname" class="error"></span></div>
-						</div>
-						
-						<div class="form-group">
-							<label for="username" class="col-md-3 control-label no-padding-right"> 登录名 </label>
+							<label for="username" class="col-md-3 control-label no-padding-right"> 成员名称 </label>
 							<div class="col-md-6">
 							    <input type="text" id="username" name="username" value="${(entity.username)!}" class="form-control"/>
 							</div>
@@ -33,50 +25,62 @@
 						</div>
 						
 						<div class="form-group">
-							<label for="status" class="col-md-3 control-label no-padding-right"> 状态 </label>
+							<label for="sex" class="col-md-3 control-label no-padding-right"> 性别 </label>
 							<div class="col-md-6">
-								<select id="status" name="status" val="${(entity.isDisabled)!}" class="form-control select2">
-									<option value="0">启用</option>
-									<option value="1">禁用</option>
+								<select id="sex" name="sex" val="${(entity.sex)!}" class="form-control select2">
+									<option value="1">男</option>
+									<option value="0">女</option>
 								</select>
 							</div>
-							<div class="col-md-3"><font id="require-status" ></font><span id="errormsg-status" class="error"></span></div>
+							<div class="col-md-3"><font id="require-sex" ></font><span id="errormsg-sex" class="error"></span></div>
 						</div>
 						
 						<div class="form-group">
-							<label for="descn" class="col-md-3 control-label no-padding-right">特色图：</label>
+							<label for="descn" class="col-md-3 control-label no-padding-right">成员头像：</label>
 							<div class="col-md-6">
-								<button type="button" id="logoBtn">图片上传</button>
-								<div id="logoDiv">
+								<button type="button" id="faceBtn">图片上传</button>
+								<div id="faceDiv">
 								</div>
-								<input type="hidden" id="logo" name="logo" />
+								<input type="hidden" id="face" name="face" />
 							</div>
 						</div>
 						
 						<div class="form-group">
-							<label for="isSuperadmin" class="col-md-3 control-label no-padding-right"> 类型 </label>
+							<label for="positionId" class="col-md-3 control-label no-padding-right"> 职务 </label>
 							<div class="col-md-6">
-								<select id="isSuperadmin" name="isSuperadmin" val="${(entity.isSuperadmin)!}" class="form-control select2">
-									<option value="0">普通管理员</option>
-									<option value="1">超级管理员</option>
+								<select id="positionId" name="positionId" val="${(entity.positionId)!}" class="form-control select2">
+									<option value="">请选择</option>
+									<#if (configList)?exists && ((configList)?size != 0)>
+										<#list configList as config>
+											<option value="${config.keyname!}">${config.val!}</option>
+										</#list>
+									</#if>
 								</select>
 							</div>
-							<div class="col-md-3"><font id="require-isSuperadmin" ></font><span id="errormsg-isSuperadmin" class="error"></span></div>
+							<div class="col-md-3"><font id="require-positionId" ></font><span id="errormsg-positionId" class="error"></span></div>
 						</div>
 						
 						<div class="form-group">
-							<label for="remark" class="col-md-3 control-label no-padding-right"> 备注 </label>
+							<label for="mobile" class="col-md-3 control-label no-padding-right"> 联系电话 </label>
 							<div class="col-md-6">
-							    <input type="text" id="remark" name="remark" value="${(entity.remark)!}" class="form-control"/>
+							    <input type="text" id="mobile" name="mobile" value="${(entity.mobile)!}" class="form-control"/>
 							</div>
-							<div class="col-md-3"><font id="require-remark" ></font><span id="errormsg-remark" class="error"></span></div>
+							<div class="col-md-3"><font id="require-mobile" ></font><span id="errormsg-mobile" class="error"></span></div>
+						</div>
+						
+						<div class="form-group">
+							<label for="email" class="col-md-3 control-label no-padding-right"> 联系邮箱 </label>
+							<div class="col-md-6">
+							    <input type="text" id="email" name="email" value="${(entity.email)!}" class="form-control"/>
+							</div>
+							<div class="col-md-3"><font id="require-email" ></font><span id="errormsg-email" class="error"></span></div>
 						</div>
 						
 						<div class="form-group">
 							<label class="col-md-3 control-label no-padding-right"></label>
 							<div class="col-md-6">
 								<button type="button" class="btn btn-sm btn-primary btn-save">确定</button>
-								<a class="btn btn-sm btn-primary" href="${base }/admin/user/index.html">返回</a>
+								<a class="btn btn-sm btn-primary" href="${base }/admin/team/index.html">返回</a>
 							</div>
 					 	</div>
 					 </div>
@@ -93,7 +97,7 @@ jQuery(function($) {
 		$.ajax({  
 	        type:'post',  
 	        traditional :true,  
-	        url:'${base}/admin/user/save.json',  
+	        url:'${base}/admin/team/save.json',  
 	        data:$("#myFormId").serialize(),  
 	        success:function(data){
 	        	switch(data.code){
@@ -137,7 +141,7 @@ jQuery(function($) {
 	
 	
 		
-	$("#logoBtn").uploadify({
+	$("#faceBtn").uploadify({
 		swf 			: '${base}/static/backend/plugins/uploadify/uploadify.swf',	//swf文件路径
 		method			: 'post',	// 提交方式
 		uploader		: '${base}/uploadFile/uploadImg.json', // 服务器端处理该上传请求的程序(servlet, struts2-Action)
@@ -181,17 +185,17 @@ jQuery(function($) {
 		            timeout		: 1500
 		        });
         	}else{
-        	    if($("#logoDiv").find("span").length>0){
-        			$("#logoDiv").find("span").remove();
+        	    if($("#faceDiv").find("span").length>0){
+        			$("#faceDiv").find("span").remove();
         		}
-        		var path="${setting['files.contextpath']!''}/"+data.message.src; 
-        		if($("#logo").val()==""){
+        		var path="${base}"+data.message.src; 
+        		if($("#face").val()==""){
             		var $img=$("<img src='"+path+"' path='"+data.message.src+"' width='80px' height='80px' style='margin: 5px 5px 0 0'/><a href='javascript:void(0);'");
-            		$("#logoDiv").append($img);
-            		$("#logo").val(data.message.src);
+            		$("#faceDiv").append($img);
+            		$("#face").val(data.message.src);
         		}else{
-				    $("#logoDiv img").attr("src",path);    
-            		$("#logo").val(data.message.src);
+				    $("#faceDiv img").attr("src",path);    
+            		$("#face").val(data.message.src);
         		}
         	}
 		}

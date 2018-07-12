@@ -18,6 +18,16 @@
 					</div>
 						
 					<div class="form-group">
+						<label for="icon" class="col-md-3 control-label no-padding-right">Icon图标</label>
+						<div class="col-md-6">
+							<div id="iconDiv">
+								<img src='${base}${entity.icon!}' path='${entity.icon!}' width='80px' height='80px' style='margin: 5px 5px 0 0'/>
+							</div>
+							<input type="hidden" id="icon" name="icon" value="${entity.icon!}" />
+						</div>
+					</div>
+						
+					<div class="form-group">
 						<label for="covers" class="col-md-3 control-label no-padding-right">项目图片</label>
 						<div class="col-md-6">
 							<div id="coversDiv">

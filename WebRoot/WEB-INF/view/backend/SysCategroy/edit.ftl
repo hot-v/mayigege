@@ -22,6 +22,19 @@
 					</div>
 						
 					<div class="form-group">
+						<label for="icon" class="col-md-3 control-label no-padding-right">Icon图标</label>
+						<div class="col-md-6">
+							<button type="button" id="iconBtn">图片上传</button>
+							<div id="iconDiv">
+								<#if entity.icon?? && entity.icon!="">
+									<img src='${base}${entity.icon!}' path='${entity.icon!}' width='80px' height='80px' style='margin: 5px 5px 0 0'/>
+								</#if>
+							</div>
+							<input type="hidden" id="icon" name="icon" />
+						</div>
+					</div>
+						
+					<div class="form-group">
 						<label for="covers" class="col-md-3 control-label no-padding-right">项目图片</label>
 						<div class="col-md-6">
 							<button type="button" id="coversBtn">图片上传</button>
@@ -155,6 +168,66 @@ jQuery(function($) {
 	        	alert('ajax错误');
 	        }
 	    });
+	});
+	
+	$("#iconBtn").uploadify({
+		swf 			: '${base}/static/backend/plugins/uploadify/uploadify.swf',	//swf文件路径
+		method			: 'post',	// 提交方式
+		uploader		: '${base}/uploadFile/uploadImg.json', // 服务器端处理该上传请求的程序(servlet, struts2-Action)
+		preventCaching	: true,		// 加随机数到URL后,防止缓存
+		buttonCursor	: 'hand',	// 上传按钮Hover时的鼠标形状
+		buttonText		: '上传文件'	, //按钮上显示的文字，默认”SELECTFILES”
+		height			: 30	, // 30 px
+		width			: 120	, // 120 px
+		fileObjName		: 'imgFile',	//文件对象名称, 即属性名
+		fileSizeLimit	: '2MB'	,		// 文件大小限制, 100 KB
+		fileTypeDesc	: 'any'	,	//文件类型说明 any(*.*)
+		fileTypeExts	: '<#list allowType?default('*.*')?split(",") as t>*.${t};</#list>',		// 允许的文件类型,分号分隔
+		//formData		: {'allowType':'${allowType!}'} , //指定上传文件附带的其他数据。也动态设置。可通过getParameter()获取
+		multi			: false ,	// 多文件上传
+		progressData	: 'percentage',	// 进度显示, speed-上传速度,percentage-百分比	
+		queueID			: 'fileQueue',//上传队列的DOM元素的ID号
+		uploadLimit		: 999,	// 最多上传文件数量
+		// 没有兼容的FLASH时触发
+		onFallback : function(){ alert( 'Flash was not detected!' );},
+		// 上传文件失败触发
+		onUploadError : function(file, errorCode, errorMsg, errorString){ 
+			var n = noty({
+	            text        : errorMsg,
+	            type        : 'error',
+	            dismissQueue: true,
+	            layout      : 'topCenter',
+	            theme       : 'relax',
+	            timeout		: 1500
+	        });
+		},
+        // 在每一个文件上传成功后触发
+        onUploadSuccess : function(file, data, response) {
+        	data=$.parseJSON(data);
+        	if(!data.success){
+        		var n = noty({
+		            text        : "文件上传失败",
+		            type        : 'error',
+		            dismissQueue: true,
+		            layout      : 'topCenter',
+		            theme       : 'relax',
+		            timeout		: 1500
+		        });
+        	}else{
+        	    if($("#iconDiv").find("span").length>0){
+        			$("#iconDiv").find("span").remove();
+        		}
+        		var path="${base}"+data.message.src; 
+        		if($("#icon").val()==""){
+            		var $img=$("<img src='"+path+"' path='"+data.message.src+"' width='80px' height='80px' style='margin: 5px 5px 0 0'/>");
+            		$("#iconDiv").append($img);
+            		$("#icon").val(data.message.src);
+        		}else{
+				    $("#iconDiv img").attr("src",path);    
+            		$("#icon").val(data.message.src);
+        		}
+        	}
+		}
 	});
 	
 	$("#coversBtn").uploadify({

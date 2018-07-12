@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.likegene.framework.core.QueryFilter;
 import com.likegene.framework.core.Result;
+import com.likegene.framework.core.formvalidator.FormValidatorManager;
 import com.yijiwenhua.backend.model.SysCompany;
 import com.yijiwenhua.backend.model.SysFile;
 import com.yijiwenhua.backend.model.SysUser;
@@ -72,7 +73,8 @@ public class SysCompanyController extends BaseController{
 	public ResponseData save(ModelMap model, @ModelAttribute("entity") SysCompany entity, 
 						HttpServletRequest request, HttpServletResponse response) {
 		SysUser user = AppContextHolder.getCurrentUser();
-		Map<String,Object> errors = new HashMap<String,Object>();
+		
+		Map<String,Object> errors = FormValidatorManager.validate("saveSysCompanyConfig", request);
         if (errors.size() != 0)
         {
             return new ResponseData(false, errors);
@@ -82,6 +84,7 @@ public class SysCompanyController extends BaseController{
 		    if (!result.isSuccess()) {
 		    	return new ResponseData(false, result);
 	        }
+		    //封面
 		    String covers = request.getParameter("covers");
 		    if(!StringUtils.isBlank(covers)){
 		    	entity = result.getReturnObj();
@@ -96,6 +99,26 @@ public class SysCompanyController extends BaseController{
 						file.setPath(path);
 						file.setRefId(entity.getId().toString());
 						file.setRefObj(Constant.SysFile.RefObj.Keys.SYS_COMPANY);
+						file.setUserId(user.getId());
+						sysFileService.save(file);
+		    		}
+				}
+		    }
+		    //周边
+		    String peripherys = request.getParameter("peripherys");
+		    if(!StringUtils.isBlank(peripherys)){
+		    	entity = result.getReturnObj();
+		    	Date date = new Date();
+		    	String[] periphery = peripherys.split(";");
+		    	SysFile file = null;
+		    	for (String path : periphery) {
+		    		if(!StringUtils.isBlank(path)){
+						file = new SysFile();
+						file.setCreateTime(date);
+						file.setDescn(Constant.SysFile.RefObj.Desc.SYS_PERIPHERY_DESC);
+						file.setPath(path);
+						file.setRefId(entity.getId().toString());
+						file.setRefObj(Constant.SysFile.RefObj.Keys.SYS_PERIPHERY);
 						file.setUserId(user.getId());
 						sysFileService.save(file);
 		    		}
@@ -119,8 +142,17 @@ public class SysCompanyController extends BaseController{
         
         filter = new QueryFilter();
         filter.put("refId", id);
+		filter.put("refObj",Constant.SysFile.RefObj.Keys.SYS_COMPANY);
         List<SysFile> files = sysFileService.findList(filter).getReturnObj();
         request.setAttribute("imgFiles", files);
+
+        //周边
+        filter = new QueryFilter();
+        filter.put("refId", id);
+		filter.put("refObj",Constant.SysFile.RefObj.Keys.SYS_PERIPHERY);
+        List<SysFile> peripheryFiles = sysFileService.findList(filter).getReturnObj();
+        request.setAttribute("peripheryFiles", peripheryFiles);
+        
         return "/backend/SysCompany/detail";
     }
 
@@ -132,6 +164,7 @@ public class SysCompanyController extends BaseController{
         
         filter = new QueryFilter();
         filter.put("refId", id);
+		filter.put("refObj",Constant.SysFile.RefObj.Keys.SYS_COMPANY);
         List<SysFile> files = sysFileService.findList(filter).getReturnObj();
         StringBuilder paths = null;
         if(files.size() > 0){
@@ -146,6 +179,24 @@ public class SysCompanyController extends BaseController{
         request.setAttribute("imgFiles", files);
         request.setAttribute("paths", paths);
         
+        //周边
+        filter = new QueryFilter();
+        filter.put("refId", id);
+		filter.put("refObj",Constant.SysFile.RefObj.Keys.SYS_PERIPHERY);
+        List<SysFile> peripheryFiles = sysFileService.findList(filter).getReturnObj();
+        StringBuilder peripheryPaths = null;
+        if(peripheryFiles.size() > 0){
+	        for (SysFile sysFile : peripheryFiles) {
+	        	if(peripheryPaths == null){
+	        		peripheryPaths = new StringBuilder(sysFile.getPath()).append(";");
+	        	}else{
+	        		peripheryPaths.append(sysFile.getPath()).append(";");
+	        	}
+			}
+        }
+        request.setAttribute("peripheryFiles", peripheryFiles);
+        request.setAttribute("peripheryPaths", peripheryPaths);
+        
         return "/backend/SysCompany/edit";
     }
     
@@ -154,8 +205,8 @@ public class SysCompanyController extends BaseController{
 	public ResponseData update(ModelMap model, @ModelAttribute("entity") SysCompany entity, 
 						HttpServletRequest request, HttpServletResponse response) {
 		SysUser user = AppContextHolder.getCurrentUser();
-		
-		Map<String,Object> errors = new HashMap<String,Object>();
+
+		Map<String,Object> errors = FormValidatorManager.validate("saveSysCompanyConfig", request);
         if (errors.size() != 0)
         {
             return new ResponseData(false, errors);
@@ -165,6 +216,7 @@ public class SysCompanyController extends BaseController{
 		    if (!result.isSuccess()) {
 		    	return new ResponseData(false, result);
 	        }
+		    //封面
 		    String covers = request.getParameter("covers");
 		    if(!StringUtils.isBlank(covers)){
 		    	//先删除图片
@@ -172,6 +224,7 @@ public class SysCompanyController extends BaseController{
 					QueryFilter filter = new QueryFilter();
 					filter.setStatementKey(SysFileService.DELETE_BY_REFID);
 					filter.put("refId", entity.getId());
+					filter.put("refObj",Constant.SysFile.RefObj.Keys.SYS_COMPANY);
 					sysFileService.delete(filter);
 				}
 				
@@ -192,6 +245,35 @@ public class SysCompanyController extends BaseController{
 		    		}
 				}
 		    }
+		    //周边
+		    String peripherys = request.getParameter("peripherys");
+		    if(!StringUtils.isBlank(peripherys)){
+		    	//先删除图片
+				if(entity.getId() != null){
+					QueryFilter filter = new QueryFilter();
+					filter.setStatementKey(SysFileService.DELETE_BY_REFID);
+					filter.put("refId", entity.getId());
+					filter.put("refObj",Constant.SysFile.RefObj.Keys.SYS_PERIPHERY);
+					sysFileService.delete(filter);
+				}
+				
+				//再新增图片
+		    	Date date = new Date();
+		    	String[] periphery = peripherys.split(";");
+		    	SysFile file = null;
+		    	for (String path : periphery) {
+		    		if(!StringUtils.isBlank(path)){
+						file = new SysFile();
+						file.setCreateTime(date);
+						file.setDescn(Constant.SysFile.RefObj.Desc.SYS_PERIPHERY_DESC);
+						file.setPath(path);
+						file.setRefId(entity.getId().toString());
+						file.setRefObj(Constant.SysFile.RefObj.Keys.SYS_PERIPHERY);
+						file.setUserId(user.getId());
+						sysFileService.save(file);
+		    		}
+				}
+		    }
         }catch(DuplicateKeyException e){
         	Result result = new Result();
             if (e.getRootCause().getMessage().toUpperCase().contains("PRIMARY")){
@@ -206,9 +288,16 @@ public class SysCompanyController extends BaseController{
 	@ResponseBody
     public ResponseData delete(Integer[] ids, HttpServletRequest request, HttpServletResponse response)
     {
+		Result result = null;
     	for (Integer id : ids)
       	{
-        	service.delete(id);
+    		result = service.delete(id);
+    		if(result.isSuccess()){
+	        	QueryFilter filter = new QueryFilter();
+				filter.setStatementKey(SysFileService.DELETE_BY_REFID);
+				filter.put("refId", id);
+				sysFileService.delete(filter);
+    		}
       	}
     	
       	

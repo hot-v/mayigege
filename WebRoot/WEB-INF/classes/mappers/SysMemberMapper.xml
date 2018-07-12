@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysMember" >
+	<!--
+	author lvliang
+	since  2018-07-11 	
+	id : id
+	username : 用户名
+	sex : 性别
+	face : 头像
+	position_id : 所属职务
+	level : 等级
+	mobile : 电话
+	email : 邮箱
+	create_time : 创建时间
+	-->
+	<sql id="fields_sql">
+	`id` ,`username` ,`sex` ,`face` ,`position_id` ,`level` ,`mobile` ,`email` ,`create_time` 
+	</sql>
+	
+	<sql id="where_sql">
+		<if test="id != null">
+			AND `id`  = #{id}
+		</if>
+		<if test="username != null and username != ''">
+			AND `username` like CONCAT('%', #{escape_username}, '%')
+		</if>
+		<if test="sex != null and sex != ''">
+			AND `sex` like CONCAT('%', #{escape_sex}, '%')
+		</if>
+		<if test="face != null and face != ''">
+			AND `face` like CONCAT('%', #{escape_face}, '%')
+		</if>
+		<if test="positionId != null and positionId != ''">
+			AND `position_id` like CONCAT('%', #{escape_positionId}, '%')
+		</if>
+		<if test="level != null">
+			AND `level`  = #{level}
+		</if>
+		<if test="mobile != null">
+			AND `mobile`  = #{mobile}
+		</if>
+		<if test="email != null and email != ''">
+			AND `email` like CONCAT('%', #{escape_email}, '%')
+		</if>
+		<if test="createTime != null">
+			AND `create_time`  = #{createTime}
+		</if>
+    </sql>
+    
+    <select id="selectList_count" parameterType="filter" resultType="int" >
+       	SELECT count(1)
+		FROM sys_member 
+		<trim
+            prefix="WHERE"
+            prefixOverrides="AND |OR" >
+            <include refid="where_sql"/>
+        </trim>    </select>
+    
+    <select id="selectList" parameterType="filter" resultType="SysMember" >
+       SELECT
+		<include refid="fields_sql"/>
+	    FROM sys_member 
+		<trim
+            prefix="WHERE"
+            prefixOverrides="AND |OR" >
+            <include refid="where_sql"/>
+        </trim>
+	    <if test="order != null">
+	    order by ${order}
+	    </if>
+	    <if test="start != null and limit != null">
+	    limit #{start},#{limit}
+	    </if>    </select>
+	
+	<insert id="save" parameterType="SysMember">
+		insert into sys_member  (
+		`username` ,`sex` ,`face` ,`position_id` ,`level` ,`mobile` ,`email` ,`create_time` 
+		)
+		values (
+		#{username},#{sex},#{face},#{positionId},#{level},#{mobile},#{email},#{createTime}
+		)
+		<selectKey keyProperty="id" resultType="Long">
+			SELECT
+			LAST_INSERT_ID() AS ID
+		</selectKey>
+	</insert>
+	
+	<update id="update" parameterType="SysMember">
+		UPDATE sys_member
+		<set>
+			<if test="username != null">
+				`username` = #{username},
+			</if>
+			<if test="sex != null">
+				`sex` = #{sex},
+			</if>
+			<if test="face != null">
+				`face` = #{face},
+			</if>
+			<if test="positionId != null">
+				`position_id` = #{positionId},
+			</if>
+			<if test="level != null">
+				`level` = #{level},
+			</if>
+			<if test="mobile != null">
+				`mobile` = #{mobile},
+			</if>
+			<if test="email != null">
+				`email` = #{email},
+			</if>
+			<if test="createTime != null">
+				`create_time` = #{createTime}
+			</if>
+		</set>
+		WHERE
+		`id` = #{id}
+	</update>
+
+	<delete id="delete" parameterType="Long">
+		delete from sys_member
+		where
+		`id` = #{id}
+	</delete>
+</mapper>

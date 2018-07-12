@@ -57,7 +57,7 @@
 						 	<div class="form-group">
 								<label for="form-field-1" class="col-md-3 control-label no-padding-right"> 是否处理 </label>
 								<div class="col-md-6" style="margin-top:5px;">
-									${(processedMap[''+entity.idProcessed])!}
+									${(processedMap[''+entity.isProcessed])!}
 						 		</div>
 							 </div>	
 						 	

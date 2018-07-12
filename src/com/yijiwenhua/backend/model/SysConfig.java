@@ -14,7 +14,7 @@ public class SysConfig implements Serializable{
 	private Long id;
 	
 	/**描述*/
-	private String descn;
+	private String desc;
 	
 	/**变量名*/
 	private String keyname;
@@ -41,12 +41,12 @@ public class SysConfig implements Serializable{
 	}
 	
 	/**描述*/
-	public String getDescn() {
-		return descn;
+	public String getDesc() {
+		return desc;
 	}
 	
-	public void setDescn(String descn) {
-		this.descn = descn;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 	
 	/**变量名*/

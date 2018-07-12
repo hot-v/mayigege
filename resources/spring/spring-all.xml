@@ -26,10 +26,16 @@
     <context:property-placeholder location="classpath:setting.properties" ignore-unresolvable="true"  /> 
 	
 	<!-- 自动扫描web包 ,将带有注解的类 纳入spring容器管理 -->
-	<context:component-scan base-package="com.yijiwenhua.mayigege.controller" />
+	<context:component-scan base-package="com.yijiwenhua" />
+	<!-- <context:component-scan base-package="com.yijiwenhua.mayigege.controller" />
 	<context:component-scan base-package="com.yijiwenhua.backend.controller" />
-	<context:component-scan base-package="com.yijiwenhua.backend.service" />
+	<context:component-scan base-package="com.yijiwenhua.backend.service" /> -->
+	<context:component-scan base-package="com.likegene"/>
 	
+	<mvc:interceptors>
+		<!-- <bean class="com.likegene.framework.core.spring.LogbackMDCInterceptor"/> -->
+		<bean class="com.likegene.framework.core.spring.ServerBasePathInterceptor"/>
+	</mvc:interceptors>
 	<mvc:default-servlet-handler />  
 	
 	<bean id="jacksonObjectMapper" class="com.likegene.framework.core.spring.JacksonObjectMapperFactory" />

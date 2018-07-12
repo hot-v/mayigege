@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysActivity" >
+	<!--
+	author lvliang
+	since  2018-07-11 	
+	id : id
+	case_name : 活动名称
+	programme_id : 所属策划方案
+	activity_price : 活动价格
+	customer_company : 举办单位
+	categroy_id : 活动分类
+	start_time : 开始时间
+	end_time : 结束时间
+	team_name : 团队名称
+	team_slogan : 团队口号
+	activity_address : 活动地点
+	activity_desc : 活动描述
+	organization_num : 组织人数
+	organization_person : 组织人
+	create_time : 创建时间
+	-->
+	<sql id="fields_sql">
+	`id` ,`case_name` ,`programme_id` ,`activity_price` ,`customer_company` ,`categroy_id` ,`start_time` ,`end_time` ,`team_name` ,`team_slogan` ,`activity_address` ,`activity_desc` ,`organization_num` ,`organization_person` ,`create_time` 
+	</sql>
+	
+	<sql id="where_sql">
+		<if test="id != null">
+			AND `id`  = #{id}
+		</if>
+		<if test="caseName != null and caseName != ''">
+			AND `case_name` like CONCAT('%', #{escape_caseName}, '%')
+		</if>
+		<if test="programmeId != null">
+			AND `programme_id`  = #{programmeId}
+		</if>
+		<if test="activityPrice != null">
+			AND `activity_price`  = #{activityPrice}
+		</if>
+		<if test="customerCompany != null and customerCompany != ''">
+			AND `customer_company` like CONCAT('%', #{escape_customerCompany}, '%')
+		</if>
+		<if test="categroyId != null">
+			AND `categroy_id`  = #{categroyId}
+		</if>
+		<if test="startTime != null">
+			AND `start_time`  = #{startTime}
+		</if>
+		<if test="endTime != null">
+			AND `end_time`  = #{endTime}
+		</if>
+		<if test="teamName != null and teamName != ''">
+			AND `team_name` like CONCAT('%', #{escape_teamName}, '%')
+		</if>
+		<if test="teamSlogan != null and teamSlogan != ''">
+			AND `team_slogan` like CONCAT('%', #{escape_teamSlogan}, '%')
+		</if>
+		<if test="activityAddress != null and activityAddress != ''">
+			AND `activity_address` like CONCAT('%', #{escape_activityAddress}, '%')
+		</if>
+		<if test="activityDesc != null and activityDesc != ''">
+			AND `activity_desc` like CONCAT('%', #{escape_activityDesc}, '%')
+		</if>
+		<if test="organizationNum != null">
+			AND `organization_num`  = #{organizationNum}
+		</if>
+		<if test="organizationPerson != null">
+			AND `organization_person`  = #{organizationPerson}
+		</if>
+		<if test="createTime != null">
+			AND `create_time`  = #{createTime}
+		</if>
+    </sql>
+    
+    <select id="selectList_count" parameterType="filter" resultType="int" >
+       	SELECT count(1)
+		FROM sys_activity 
+		<trim
+            prefix="WHERE"
+            prefixOverrides="AND |OR" >
+            <include refid="where_sql"/>
+        </trim>    </select>
+    
+    <select id="selectList" parameterType="filter" resultType="SysActivity" >
+       SELECT
+		<include refid="fields_sql"/>
+	    FROM sys_activity 
+		<trim
+            prefix="WHERE"
+            prefixOverrides="AND |OR" >
+            <include refid="where_sql"/>
+        </trim>
+	    <if test="order != null">
+	    order by ${order}
+	    </if>
+	    <if test="start != null and limit != null">
+	    limit #{start},#{limit}
+	    </if>    </select>
+	
+	<insert id="save" parameterType="SysActivity">
+		insert into sys_activity  (
+		`case_name` ,`programme_id` ,`activity_price` ,`customer_company` ,`categroy_id` ,`start_time` ,`end_time` ,`team_name` ,`team_slogan` ,`activity_address` ,`activity_desc` ,`organization_num` ,`organization_person` ,`create_time` 
+		)
+		values (
+		#{caseName},#{programmeId},#{activityPrice},#{customerCompany},#{categroyId},#{startTime},#{endTime},#{teamName},#{teamSlogan},#{activityAddress},#{activityDesc},#{organizationNum},#{organizationPerson},#{createTime}
+		)
+		<selectKey keyProperty="id" resultType="Long">
+			SELECT
+			LAST_INSERT_ID() AS ID
+		</selectKey>
+	</insert>
+	
+	<update id="update" parameterType="SysActivity">
+		UPDATE sys_activity
+		<set>
+			<if test="caseName != null">
+				`case_name` = #{caseName},
+			</if>
+			<if test="programmeId != null">
+				`programme_id` = #{programmeId},
+			</if>
+			<if test="activityPrice != null">
+				`activity_price` = #{activityPrice},
+			</if>
+			<if test="customerCompany != null">
+				`customer_company` = #{customerCompany},
+			</if>
+			<if test="categroyId != null">
+				`categroy_id` = #{categroyId},
+			</if>
+			<if test="startTime != null">
+				`start_time` = #{startTime},
+			</if>
+			<if test="endTime != null">
+				`end_time` = #{endTime},
+			</if>
+			<if test="teamName != null">
+				`team_name` = #{teamName},
+			</if>
+			<if test="teamSlogan != null">
+				`team_slogan` = #{teamSlogan},
+			</if>
+			<if test="activityAddress != null">
+				`activity_address` = #{activityAddress},
+			</if>
+			<if test="activityDesc != null">
+				`activity_desc` = #{activityDesc},
+			</if>
+			<if test="organizationNum != null">
+				`organization_num` = #{organizationNum},
+			</if>
+			<if test="organizationPerson != null">
+				`organization_person` = #{organizationPerson},
+			</if>
+			<if test="createTime != null">
+				`create_time` = #{createTime}
+			</if>
+		</set>
+		WHERE
+		`id` = #{id}
+	</update>
+
+	<delete id="delete" parameterType="Long">
+		delete from sys_activity
+		where
+		`id` = #{id}
+	</delete>
+</mapper>

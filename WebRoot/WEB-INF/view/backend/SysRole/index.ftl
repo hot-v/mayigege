@@ -105,6 +105,10 @@
 	jQuery(function($) {
 		//tab显示监听
 		$('a[data-toggle="tab"]').on('shown.bs.tab',function(e){
+			showCount = showCount + 1;
+			if(showCount>1)
+				return false;
+			
 			var $this = $(e.target);
 			var curPage = $this.attr("href");
 			var id = $("#update_id").val();

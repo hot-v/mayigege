@@ -105,7 +105,7 @@ public class FileUploadController extends BaseController {
 	public ResponseData deleteImg(ModelMap model, HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestParam("imgPath") String imgPath,
-			@RequestParam("id") String id) {
+			@RequestParam("id") String id,@RequestParam("type") String type) {
 		try {
 			if (null == imgPath || "".equals(imgPath)) {
 				return ResponseData.FAILED_NO_DATA;
@@ -118,6 +118,17 @@ public class FileUploadController extends BaseController {
 				QueryFilter filter = new QueryFilter();
 				filter.setStatementKey(SysFileService.DELETE_BY_REFID);
 				filter.put("refId", id);
+				if(!StringUtils.isBlank(type)){
+					if("1".equals(type)){
+						filter.put("refObj", Constant.SysFile.RefObj.Keys.SYS_COMPANY);//封面
+					}else if("2".equals(type)){
+						filter.put("refObj", Constant.SysFile.RefObj.Keys.SYS_PERIPHERY);//周边
+					}else if("3".equals(type)){
+						filter.put("refObj", Constant.SysFile.RefObj.Keys.SYS_CATEGROY);//分类
+					}else if("4".equals(type)){
+						filter.put("refObj", Constant.SysFile.RefObj.Keys.SYS_ACTIVITY);//活动
+					}
+				}
 				filter.put("path", imgPath);
 				sysFileService.delete(filter);
 			}

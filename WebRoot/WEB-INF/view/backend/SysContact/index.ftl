@@ -70,7 +70,7 @@
 			                                        <td title="${(entity.content)!}">${(entity.content)!}</td>
 			                                        <td title="${(entity.username)!}">${(entity.username)!}</td>
 			                                        <td title="${(entity.mobile)!}-${(entity.email)!}">${(entity.mobile)!}-${(entity.email)!}</td>
-			                                        <td title="${(processedMap[''+entity.idProcessed])!}">${(processedMap[''+entity.idProcessed])!}</td>
+			                                        <td title="${(processedMap[''+entity.isProcessed])!}">${(processedMap[''+entity.isProcessed])!}</td>
 			                                        <td title="${(entity.procResult)!}">${(entity.procResult)!}</td>
 			                                        <td title="${(entity.procUserId)!}">${(entity.procUserId)!}</td>
 			                                        <td>
@@ -109,6 +109,10 @@
 		
 		//tab显示监听
 		$('a[data-toggle="tab"]').on('shown.bs.tab',function(e){
+			showCount = showCount + 1;
+			if(showCount>1)
+				return false;
+			
 			var $this = $(e.target);
 			var curPage = $this.attr("href");
 			var id = $("#update_id").val();

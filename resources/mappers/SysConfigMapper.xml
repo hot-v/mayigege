@@ -5,7 +5,7 @@
 	author lvliang
 	since  2018-07-09 	
 	id : id
-	descn : 描述
+	desc : 描述
 	keyname : 变量名
 	val : 变量值
 	category : 分类
@@ -13,15 +13,15 @@
 	order_no : 排序
 	-->
 	<sql id="fields_sql">
-	`id` ,`descn` ,`keyname` ,`val` ,`category` ,`category_desc` ,`order_no` 
+	`id` ,`desc` ,`keyname` ,`val` ,`category` ,`category_desc` ,`order_no` 
 	</sql>
 	
 	<sql id="where_sql">
 		<if test="id != null">
 			AND `id`  = #{id}
 		</if>
-		<if test="descn != null and descn != ''">
-			AND `descn` like CONCAT('%', #{escape_descn}, '%')
+		<if test="desc != null and desc != ''">
+			AND `desc` like CONCAT('%', #{escape_desc}, '%')
 		</if>
 		<if test="keyname != null and keyname != ''">
 			AND `keyname` like CONCAT('%', #{escape_keyname}, '%')
@@ -67,10 +67,10 @@
 	
 	<insert id="save" parameterType="SysConfig">
 		insert into sys_config  (
-		`descn` ,`keyname` ,`val` ,`category` ,`category_desc` ,`order_no` 
+		`desc` ,`keyname` ,`val` ,`category` ,`category_desc` ,`order_no` 
 		)
 		values (
-		#{descn},#{keyname},#{val},#{category},#{categoryDesc},#{orderNo}
+		#{desc},#{keyname},#{val},#{category},#{categoryDesc},#{orderNo}
 		)
 		<selectKey keyProperty="id" resultType="Long">
 			SELECT
@@ -81,8 +81,8 @@
 	<update id="update" parameterType="SysConfig">
 		UPDATE sys_config
 		<set>
-			<if test="descn != null">
-				`descn` = #{descn},
+			<if test="desc != null">
+				`desc` = #{desc},
 			</if>
 			<if test="keyname != null">
 				`keyname` = #{keyname},

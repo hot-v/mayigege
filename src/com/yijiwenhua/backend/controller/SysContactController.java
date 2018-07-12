@@ -1,7 +1,10 @@
 package com.yijiwenhua.backend.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,6 +60,20 @@ public class SysContactController extends BaseController {
 			return new ResponseData(false, errors);
 		}
 		try {
+			String contactInfo = request.getParameter("contactInfo");
+			
+			if(!matchSomething("^1\\d{10}$",contactInfo) && !matchSomething("^(\\w-*\\.*)+@(\\w-?)+(\\.\\w{2,})+$",contactInfo)){
+				return ResponseData.FAILED_NO_DATA;
+			}
+			
+			if(matchSomething("^1\\d{10}$",contactInfo)){
+				entity.setMobile(contactInfo);
+			}
+			if(matchSomething("^(\\w-*\\.*)+@(\\w-?)+(\\.\\w{2,})+$",contactInfo)){
+				entity.setEmail(contactInfo);
+			}
+			entity.setIsProcessed(SysContact.IS_PROCESSED_NO);
+			entity.setCreateTime(new Date());
 			Result result = service.save(entity);
 			if (!result.isSuccess()) {
 				return new ResponseData(false, result);
@@ -122,4 +139,14 @@ public class SysContactController extends BaseController {
 		}
 		return ResponseData.SUCCESS_NO_DATA;
 	}
+	
+	/**
+	 * 验证信息
+	 * */
+	private boolean matchSomething(String regex,String content){
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(content);
+		return matcher.matches();
+	}
+	
 }
