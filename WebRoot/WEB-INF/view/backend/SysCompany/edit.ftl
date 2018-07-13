@@ -122,57 +122,6 @@
 <script type="text/javascript" src="${base}/static/backend/kindeditor/lang/zh-CN.js"></script>
 <script type="text/javascript" src="${base}/static/validatejs/SysCompany.js"></script>	
 <script type="text/javascript">
-function deleteImg(obj){
-	var imgPath=$(obj).prev().attr("path");
-	$.ajax({  
-        type:'post',   
-     	async:false,
-        traditional :true,  
-        url:'${base}/uploadFile/deleteImg.json',
-        data:{"imgPath":imgPath,"id":"${(entity.id)!}"},  
-        success:function(data){
-        	if(data.code == '401'){
-        		location.href = data.message;
-        	}else{
-        		if (data.success){
-        			var n = noty({
-			            text        : data.message,
-			            type        : 'success',
-			            dismissQueue: true,
-			            layout      : 'topCenter',
-			            theme       : 'relax',
-			            timeout		: 1500
-			        });
-			        $(obj).prev().remove();
-			        $(obj).remove();
-			        
-		        	var imgs="";
-			        $("#coversDiv img").each(function(){
-		        		if(imgs==""){
-		        			imgs=$(this).attr("path");
-		        		}else{
-		        			imgs=imgs+";"+$(this).attr("path");
-		        		}
-			        });
-	        		$("#covers").val(imgs);
-	        	}else{
-	        		var n = noty({
-			            text        : msg,
-			            type        : 'error',
-			            dismissQueue: true,
-			            layout      : 'topCenter',
-			            theme       : 'relax',
-			            timeout		: 1500
-			        });
-	        	}
-        	}
-        },
-        error:function(data){
-        	alert(data.message);
-        }
-    });
-	
-}
 	
 jQuery(function($) {
 	$(".select2").select2();
@@ -288,6 +237,8 @@ jQuery(function($) {
 		            timeout		: 1500
 		        });
         	}else{
+        		clearUploadErrMsg($("#logoBtn").get(0));
+        	
         	    if($("#logoDiv").find("span").length>0){
         			$("#logoDiv").find("span").remove();
         		}
@@ -360,6 +311,8 @@ jQuery(function($) {
 		            timeout		: 1500
 		        });
         	}else{
+        		clearUploadErrMsg($("#coversBtn").get(0));
+        	
         		var path="${base}"+data.message.src; 
     			var $img=$("<img src='"+path+"' path='"+data.message.src+"' width='80px' height='80px' style='margin: 5px 5px 0 0'/><a href='javascript:void(0);' onclick='deleteImg(this)'>删除</a>");
         		$("#coversDiv").append($img);
@@ -418,6 +371,8 @@ jQuery(function($) {
 		            timeout		: 1500
 		        });
         	}else{
+        		clearUploadErrMsg($("#peripherysBtn").get(0));
+        	
         		var path="${base}"+data.message.src; 
     			var $img=$("<img src='"+path+"' path='"+data.message.src+"' width='80px' height='80px' style='margin: 5px 5px 0 0'/><a href='javascript:void(0);' onclick='deleteImg(this)'>删除</a>");
         		$("#peripherysDiv").append($img);

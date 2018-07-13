@@ -39,7 +39,7 @@
 					<div class="form-group">
 						<label for="categoryDesc" class="col-md-3 control-label no-padding-right"> 分类描述 </label>
 						<div class="col-md-6">
-						    <input type="text" id="categoryDesc" name="categoryDesc" value="${(entity.categoryDesc)!}" class="form-control" disabled/>
+							<textarea name="categoryDesc" id="categoryDesc" ref="categoryDesc" class="form-control" disabled>${(entity.categoryDesc)!}</textarea>
 							<font class="required1" color="gray">&nbsp;</font>
 						</div>
 					</div>	

@@ -31,7 +31,7 @@
 						<div class="form-group">
 							<label for="password" class="col-md-3 control-label no-padding-right"> 登录密码 </label>
 							<div class="col-md-6">
-							    <input type="text" id="password" name="password" value="${(entity.password)!}" class="form-control"/>
+							    <input type="password" id="password" name="password" value="${(entity.password)!}" class="form-control"/>
 							</div>
 							<div class="col-md-3"><font id="require-password" ></font><span id="errormsg-password" class="error"></span></div>
 						</div>
@@ -39,7 +39,8 @@
 						<div class="form-group">
 							<label for="isDisabled" class="col-md-3 control-label no-padding-right"> 用户状态 </label>
 							<div class="col-md-6">
-								<select id="isDisabled" name="isDisabled" val="${(entity.isDisabled)!}" class="form-control select2">
+								<select id="isDisabled" name="isDisabled" val="${(entity.isDisabled)!}" class="form-control select2" onchange="clearErrMsg(this)">
+									<option value="">请选择</option>
 									<option value="0">启用</option>
 									<option value="1">禁用</option>
 								</select>
@@ -50,7 +51,8 @@
 						<div class="form-group">
 							<label for="isSuperadmin" class="col-md-3 control-label no-padding-right"> 用户类型 </label>
 							<div class="col-md-6">
-								<select id="isSuperadmin" name="isSuperadmin" val="${(entity.isSuperadmin)!}" class="form-control select2">
+								<select id="isSuperadmin" name="isSuperadmin" val="${(entity.isSuperadmin)!}" class="form-control select2" onchange="clearErrMsg(this)">
+									<option value="">请选择</option>
 									<option value="0">普通管理员</option>
 									<option value="1">超级管理员</option>
 								</select>

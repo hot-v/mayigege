@@ -1,6 +1,7 @@
 package com.yijiwenhua.backend.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,6 +75,15 @@ public class SysCompanyController extends BaseController{
 		SysUser user = AppContextHolder.getCurrentUser();
 		
 		Map<String,Object> errors = FormValidatorManager.validate("saveSysCompanyConfig", request);
+		
+    	QueryFilter filter = new QueryFilter();
+    	SysCompany company = service.findOne(filter).getReturnObj();
+    	if(company!=null){
+	    	if(errors == null)
+	    		errors = new HashMap<String,Object>();
+	    	errors.put("请勿重复提交公司信息", "company");
+    	}
+		
         if (errors.size() != 0)
         {
             return new ResponseData(false, errors);

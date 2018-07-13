@@ -307,6 +307,75 @@ function jumpPage(id,url){
 function setTitle(title){
 	$("ul.nav-tabs li.header small").text(title);
 }
+
+function clearErrMsg(obj){
+	var val = $(obj).val();
+	var id = $(obj).attr("id");
+	if(val != ""){
+		$(obj).parent().next().find("span[id='errormsg-"+id+"']").html("");
+		$(obj).parent().next().find("span[id='errormsg-"+id+"']").removeClass("errMsgBd");
+	}
+}
+
+function clearUploadErrMsg(obj){
+	var id = $(obj).attr("id").replace("Btn","");
+	
+	$(obj).parent().next().find("span[id='errormsg-"+id+"']").html("");
+	$(obj).parent().next().find("span[id='errormsg-"+id+"']").removeClass("errMsgBd");
+}
+
+function deleteImg(obj){
+	var imgPath=$(obj).prev().attr("path");
+	var hiddenObj = $(obj).parent().parent().find("input[type='hidden']").get(0);
+	$.ajax({  
+        type:'post',   
+     	async:false,
+        traditional :true,  
+        url:'${base}/uploadFile/deleteImg.json',
+        data:{"imgPath":imgPath,"id":"-1","type":1},  
+        success:function(data){
+        	if(data.code == '401'){
+        		location.href = data.message;
+        	}else{
+        		if (data.success){
+        			var n = noty({
+			            text        : data.message,
+			            type        : 'success',
+			            dismissQueue: true,
+			            layout      : 'topCenter',
+			            theme       : 'relax',
+			            timeout		: 1500
+			        });
+			        $(obj).prev().remove();
+			        
+		        	var imgs="";
+			         $(obj).parent().find("img").each(function(){
+		        		if(imgs==""){
+		        			imgs=$(this).attr("path");
+		        		}else{
+		        			imgs=imgs+";"+$(this).attr("path");
+		        		}
+			        });
+	        		$(hiddenObj).val(imgs);
+	        		
+			        $(obj).remove();
+	        	}else{
+	        		var n = noty({
+			            text        : msg,
+			            type        : 'error',
+			            dismissQueue: true,
+			            layout      : 'topCenter',
+			            theme       : 'relax',
+			            timeout		: 1500
+			        });
+	        	}
+        	}
+        },
+        error:function(data){
+        	alert(data.message);
+        }
+    });
+}
 </script>
 <#nested>
 </html>

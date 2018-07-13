@@ -26,7 +26,8 @@
 						<div class="form-group">
 							<label for="sex" class="col-md-3 control-label no-padding-right"> 性别 </label>
 							<div class="col-md-6">
-								<select id="sex" name="sex" val="${(entity.sex)!}" class="form-control select2">
+								<select id="sex" name="sex" val="${(entity.sex)!}" class="form-control select2" onchange="clearErrMsg(this)">
+									<option value="">请选择</option>
 									<option value="1">男</option>
 									<option value="0">女</option>
 								</select>
@@ -48,7 +49,7 @@
 						<div class="form-group">
 							<label for="positionId" class="col-md-3 control-label no-padding-right"> 职务 </label>
 							<div class="col-md-6">
-								<select id="positionId" name="positionId" val="${(entity.positionId)!}" class="form-control select2">
+								<select id="positionId" name="positionId" val="${(entity.positionId)!}" class="form-control select2" onchange="clearErrMsg(this)">
 									<option value="">请选择</option>
 									<#if (configList)?exists && ((configList)?size != 0)>
 										<#list configList as config>
@@ -146,8 +147,6 @@ jQuery(function($) {
 		    });
 	    }
 	});
-	
-	
 		
 	$("#faceBtn").uploadify({
 		swf 			: '${base}/static/backend/plugins/uploadify/uploadify.swf',	//swf文件路径
@@ -193,6 +192,8 @@ jQuery(function($) {
 		            timeout		: 1500
 		        });
         	}else{
+        		clearUploadErrMsg($("#faceBtn").get(0));
+        	
         	    if($("#faceDiv").find("span").length>0){
         			$("#faceDiv").find("span").remove();
         		}
